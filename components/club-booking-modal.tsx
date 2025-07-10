@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect, useCallback } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { format } from "date-fns"
-import { X, Home, ArrowRight } from "lucide-react"
+import { useState, useEffect, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { format } from "date-fns";
+import { X, Home, ArrowRight } from "lucide-react";
 
 interface ClubBookingModalProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
@@ -21,54 +21,59 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
     date: "",
     time: "",
     agreed: false,
-  })
+  });
 
-  const [isVisible, setIsVisible] = useState(false)
-  const [isAnimating, setIsAnimating] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      setIsVisible(true)
-      document.body.style.overflow = "hidden"
+      setIsVisible(true);
+      document.body.style.overflow = "hidden";
       const timer = setTimeout(() => {
-        setIsAnimating(true)
-      }, 50)
-      return () => clearTimeout(timer)
+        setIsAnimating(true);
+      }, 50);
+      return () => clearTimeout(timer);
     } else {
-      setIsAnimating(false)
-      document.body.style.overflow = "unset"
-      const timer = setTimeout(() => setIsVisible(false), 700)
-      return () => clearTimeout(timer)
+      setIsAnimating(false);
+      document.body.style.overflow = "unset";
+      const timer = setTimeout(() => setIsVisible(false), 700);
+      return () => clearTimeout(timer);
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   const handleClose = () => {
-    onClose()
-  }
+    onClose();
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!bookingData.name || !bookingData.phone || !bookingData.date || !bookingData.time) {
-      alert("Пожалуйста, заполните все поля")
-      return
+    if (
+      !bookingData.name ||
+      !bookingData.phone ||
+      !bookingData.date ||
+      !bookingData.time
+    ) {
+      alert("Пожалуйста, заполните все поля");
+      return;
     }
 
     if (!bookingData.agreed) {
-      alert("Необходимо согласие на обработку персональных данных")
-      return
+      alert("Необходимо согласие на обработку персональных данных");
+      return;
     }
 
     // Проверка дня недели (пятница-воскресенье)
-    const selectedDate = new Date(bookingData.date)
-    const selectedDay = selectedDate.getDay()
+    const selectedDate = new Date(bookingData.date);
+    const selectedDay = selectedDate.getDay();
     if (selectedDay < 5 && selectedDay !== 0) {
-      alert("Клуб работает только с пятницы по воскресенье")
-      return
+      alert("Клуб работает только с пятницы по воскресенье");
+      return;
     }
 
-    console.log("Club table booking:", bookingData)
-    alert("Заявка отправлена! Мы свяжемся с вами в течение 15 минут.")
+    console.log("Club table booking:", bookingData);
+    alert("Заявка отправлена! Мы свяжемся с вами в течение 15 минут.");
 
     // Сброс формы
     setBookingData({
@@ -77,21 +82,21 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
       date: "",
       time: "",
       agreed: false,
-    })
+    });
 
-    handleClose()
-  }
+    handleClose();
+  };
 
   const getAvailableTimes = useCallback(() => {
-    if (!bookingData.date) return []
+    if (!bookingData.date) return [];
 
-    const selectedDate = new Date(bookingData.date)
-    const selectedDay = selectedDate.getDay()
-    const today = new Date()
-    const isToday = bookingData.date === format(today, "yyyy-MM-dd")
-    const currentHour = today.getHours()
+    const selectedDate = new Date(bookingData.date);
+    const selectedDay = selectedDate.getDay();
+    const today = new Date();
+    const isToday = bookingData.date === format(today, "yyyy-MM-dd");
+    const currentHour = today.getHours();
 
-    let times = []
+    let times = [];
 
     if (selectedDay === 0) {
       // Воскресенье: 20:00 - 02:00
@@ -109,7 +114,7 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
         "01:00",
         "01:30",
         "02:00",
-      ]
+      ];
     } else {
       // Пятница-Суббота: 22:00 - 06:00
       times = [
@@ -130,32 +135,32 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
         "05:00",
         "05:30",
         "06:00",
-      ]
+      ];
     }
 
     // Фильтруем прошедшие часы для сегодняшнего дня
     if (isToday) {
       times = times.filter((time) => {
-        const timeHour = Number.parseInt(time.split(":")[0])
-        const adjustedHour = timeHour < 12 ? timeHour + 24 : timeHour
-        return adjustedHour > currentHour + 1
-      })
+        const timeHour = Number.parseInt(time.split(":")[0]);
+        const adjustedHour = timeHour < 12 ? timeHour + 24 : timeHour;
+        return adjustedHour > currentHour + 1;
+      });
     }
 
-    return times
-  }, [bookingData.date])
+    return times;
+  }, [bookingData.date]);
 
   // Сброс времени при изменении даты
   useEffect(() => {
     if (bookingData.date) {
-      const availableTimes = getAvailableTimes()
+      const availableTimes = getAvailableTimes();
       if (!availableTimes.includes(bookingData.time)) {
-        setBookingData((prev) => ({ ...prev, time: "" }))
+        setBookingData((prev) => ({ ...prev, time: "" }));
       }
     }
-  }, [bookingData.date, bookingData.time])
+  }, [bookingData.date, bookingData.time]);
 
-  if (!isVisible) return null
+  if (!isVisible) return null;
 
   return (
     <div className="fixed inset-0 z-[100]">
@@ -176,10 +181,15 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
         {/* Header - Fixed */}
         <div
           className={`sticky top-0 z-10 bg-black/90 backdrop-blur-sm border-b border-white/10 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between transition-all duration-700 delay-200 ease-out ${
-            isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            isAnimating
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4"
           }`}
         >
-          <button onClick={handleClose} className="text-white hover:text-gray-300 transition-colors p-2 -ml-2">
+          <button
+            onClick={handleClose}
+            className="text-white hover:text-gray-300 transition-colors p-2 -ml-2"
+          >
             <Home className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
@@ -187,7 +197,10 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
             БРОНИРОВАНИЕ
           </h1>
 
-          <button onClick={handleClose} className="text-white hover:text-gray-300 transition-colors p-2 -mr-2">
+          <button
+            onClick={handleClose}
+            className="text-white hover:text-gray-300 transition-colors p-2 -mr-2"
+          >
             <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
@@ -195,7 +208,9 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
         {/* Content - Scrollable */}
         <div
           className={`min-h-[calc(100vh-80px)] flex items-center transition-all duration-700 delay-300 ease-out py-8 sm:py-12 lg:py-16 ${
-            isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            isAnimating
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
           }`}
         >
           <div className="w-full px-4 sm:px-6 lg:px-8">
@@ -205,7 +220,9 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
                 {/* Title for Mobile */}
                 <div
                   className={`text-center transition-all duration-700 delay-300 ease-out ${
-                    isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                    isAnimating
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-8"
                   }`}
                 >
                   <h2 className="text-3xl sm:text-4xl font-black leading-tight tracking-tight mb-4">
@@ -213,24 +230,37 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
                     <br />
                     <span className="block">ЖДЕТ ВАС</span>
                   </h2>
-                  <p className="text-sm text-white/60 mb-2">+375 (29) 123-45-67</p>
+                  <p className="text-sm text-white/60 mb-2">
+                    +375 (29) 123-45-67
+                  </p>
                 </div>
 
                 {/* Form for Mobile */}
                 <div
                   className={`transition-all duration-700 delay-400 ease-out ${
-                    isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                    isAnimating
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-8"
                   }`}
                 >
-                  <h3 className="text-base font-light tracking-wide mb-6 text-center">ЗАБРОНИРОВАТЬ СТОЛИК</h3>
+                  <h3 className="text-base font-light tracking-wide mb-6 text-center">
+                    ЗАБРОНИРОВАТЬ СТОЛИК
+                  </h3>
 
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Name */}
                     <div className="space-y-2">
-                      <Label className="text-white/60 text-sm font-light tracking-wide">Имя</Label>
+                      <Label className="text-white/60 text-sm font-light tracking-wide">
+                        Имя
+                      </Label>
                       <Input
                         value={bookingData.name}
-                        onChange={(e) => setBookingData({ ...bookingData, name: e.target.value })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            name: e.target.value,
+                          })
+                        }
                         className="bg-transparent border-0 border-b border-white/20 rounded-none px-0 py-3 text-white placeholder:text-white/40 focus:border-white focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                         placeholder=""
                         required
@@ -239,11 +269,18 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
 
                     {/* Phone */}
                     <div className="space-y-2">
-                      <Label className="text-white/60 text-sm font-light tracking-wide">Телефон</Label>
+                      <Label className="text-white/60 text-sm font-light tracking-wide">
+                        Телефон
+                      </Label>
                       <Input
                         type="tel"
                         value={bookingData.phone}
-                        onChange={(e) => setBookingData({ ...bookingData, phone: e.target.value })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            phone: e.target.value,
+                          })
+                        }
                         className="bg-transparent border-0 border-b border-white/20 rounded-none px-0 py-3 text-white placeholder:text-white/40 focus:border-white focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                         placeholder=""
                         required
@@ -253,11 +290,18 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
                     {/* Date and Time - Side by side on mobile */}
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label className="text-white/60 text-sm font-light tracking-wide">Дата</Label>
+                        <Label className="text-white/60 text-sm font-light tracking-wide">
+                          Дата
+                        </Label>
                         <input
                           type="date"
                           value={bookingData.date}
-                          onChange={(e) => setBookingData({ ...bookingData, date: e.target.value })}
+                          onChange={(e) =>
+                            setBookingData({
+                              ...bookingData,
+                              date: e.target.value,
+                            })
+                          }
                           className="w-full bg-transparent border-0 border-b border-white/20 rounded-none px-0 py-3 text-white focus:border-white focus:outline-none transition-colors [color-scheme:dark] text-sm"
                           min={format(new Date(), "yyyy-MM-dd")}
                           required
@@ -265,10 +309,17 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-white/60 text-sm font-light tracking-wide">Время</Label>
+                        <Label className="text-white/60 text-sm font-light tracking-wide">
+                          Время
+                        </Label>
                         <select
                           value={bookingData.time}
-                          onChange={(e) => setBookingData({ ...bookingData, time: e.target.value })}
+                          onChange={(e) =>
+                            setBookingData({
+                              ...bookingData,
+                              time: e.target.value,
+                            })
+                          }
                           className="w-full bg-transparent border-0 border-b border-white/20 rounded-none px-0 py-3 text-white focus:border-white focus:outline-none transition-colors appearance-none cursor-pointer text-sm"
                           disabled={!bookingData.date}
                           required
@@ -277,7 +328,11 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
                             {bookingData.date ? "Время" : "Дата"}
                           </option>
                           {getAvailableTimes().map((time) => (
-                            <option key={time} value={time} className="bg-gray-900 text-white">
+                            <option
+                              key={time}
+                              value={time}
+                              className="bg-gray-900 text-white"
+                            >
                               {time}
                             </option>
                           ))}
@@ -291,7 +346,12 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
                         type="checkbox"
                         id="agreement-mobile"
                         checked={bookingData.agreed}
-                        onChange={(e) => setBookingData({ ...bookingData, agreed: e.target.checked })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            agreed: e.target.checked,
+                          })
+                        }
                         className="mt-1 w-4 h-4 bg-transparent border border-white/40 rounded text-amber-500 focus:ring-amber-500 focus:ring-2"
                       />
                       <Label
@@ -322,7 +382,9 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
               {/* Left Side - Title */}
               <div
                 className={`flex flex-col justify-center transition-all duration-700 delay-300 ease-out ${
-                  isAnimating ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+                  isAnimating
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-8"
                 }`}
               >
                 <h2 className="text-6xl xl:text-7xl 2xl:text-8xl font-black leading-none tracking-tight">
@@ -333,25 +395,35 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
 
                 {/* Phone Number */}
                 <div className="mt-16 xl:mt-24 2xl:mt-32">
-                  <p className="text-lg xl:text-xl font-light">+375 (29) 123-45-67</p>
+                  <p className="text-lg xl:text-xl font-light">
+                    +375 (29) 123-45-67
+                  </p>
                 </div>
               </div>
 
               {/* Right Side - Form */}
               <div
                 className={`flex flex-col justify-center w-full max-w-md mx-auto transition-all duration-700 delay-400 ease-out ${
-                  isAnimating ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
+                  isAnimating
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-8"
                 }`}
               >
-                <h3 className="text-xl font-light tracking-wide mb-12">ЗАБРОНИРОВАТЬ СТОЛИК</h3>
+                <h3 className="text-xl font-light tracking-wide mb-12">
+                  ЗАБРОНИРОВАТЬ СТОЛИК
+                </h3>
 
                 <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Name */}
                   <div className="space-y-2">
-                    <Label className="text-white/60 text-sm font-light tracking-wide">Имя</Label>
+                    <Label className="text-white/60 text-sm font-light tracking-wide">
+                      Имя
+                    </Label>
                     <Input
                       value={bookingData.name}
-                      onChange={(e) => setBookingData({ ...bookingData, name: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({ ...bookingData, name: e.target.value })
+                      }
                       className="bg-transparent border-0 border-b border-white/20 rounded-none px-0 py-3 text-white placeholder:text-white/40 focus:border-white focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                       placeholder=""
                       required
@@ -360,11 +432,18 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
 
                   {/* Phone */}
                   <div className="space-y-2">
-                    <Label className="text-white/60 text-sm font-light tracking-wide">Телефон</Label>
+                    <Label className="text-white/60 text-sm font-light tracking-wide">
+                      Телефон
+                    </Label>
                     <Input
                       type="tel"
                       value={bookingData.phone}
-                      onChange={(e) => setBookingData({ ...bookingData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({
+                          ...bookingData,
+                          phone: e.target.value,
+                        })
+                      }
                       className="bg-transparent border-0 border-b border-white/20 rounded-none px-0 py-3 text-white placeholder:text-white/40 focus:border-white focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                       placeholder=""
                       required
@@ -373,11 +452,15 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
 
                   {/* Date */}
                   <div className="space-y-2">
-                    <Label className="text-white/60 text-sm font-light tracking-wide">Дата</Label>
+                    <Label className="text-white/60 text-sm font-light tracking-wide">
+                      Дата
+                    </Label>
                     <input
                       type="date"
                       value={bookingData.date}
-                      onChange={(e) => setBookingData({ ...bookingData, date: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({ ...bookingData, date: e.target.value })
+                      }
                       className="w-full bg-transparent border-0 border-b border-white/20 rounded-none px-0 py-3 text-white focus:border-white focus:outline-none transition-colors [color-scheme:dark]"
                       min={format(new Date(), "yyyy-MM-dd")}
                       required
@@ -386,19 +469,29 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
 
                   {/* Time */}
                   <div className="space-y-2">
-                    <Label className="text-white/60 text-sm font-light tracking-wide">Время</Label>
+                    <Label className="text-white/60 text-sm font-light tracking-wide">
+                      Время
+                    </Label>
                     <select
                       value={bookingData.time}
-                      onChange={(e) => setBookingData({ ...bookingData, time: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({ ...bookingData, time: e.target.value })
+                      }
                       className="w-full bg-transparent border-0 border-b border-white/20 rounded-none px-0 py-3 text-white focus:border-white focus:outline-none transition-colors appearance-none cursor-pointer"
                       disabled={!bookingData.date}
                       required
                     >
                       <option value="" className="bg-gray-900 text-white">
-                        {bookingData.date ? "Выберите время" : "Сначала выберите дату"}
+                        {bookingData.date
+                          ? "Выберите время"
+                          : "Сначала выберите дату"}
                       </option>
                       {getAvailableTimes().map((time) => (
-                        <option key={time} value={time} className="bg-gray-900 text-white">
+                        <option
+                          key={time}
+                          value={time}
+                          className="bg-gray-900 text-white"
+                        >
                           {time}
                         </option>
                       ))}
@@ -411,7 +504,12 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
                       type="checkbox"
                       id="agreement-desktop"
                       checked={bookingData.agreed}
-                      onChange={(e) => setBookingData({ ...bookingData, agreed: e.target.checked })}
+                      onChange={(e) =>
+                        setBookingData({
+                          ...bookingData,
+                          agreed: e.target.checked,
+                        })
+                      }
                       className="mt-1 w-4 h-4 bg-transparent border border-white/40 rounded text-amber-500 focus:ring-amber-500 focus:ring-2"
                     />
                     <Label
@@ -441,5 +539,5 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

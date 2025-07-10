@@ -1,17 +1,17 @@
-import type React from "react"
-import BowlingHeader from "@/components/bowling-header"
-import BowlingFooter from "@/components/bowling-footer"
+import type React from "react";
+// import BowlingHeader from "@/components/bowling-header"
+// import BowlingFooter from "@/components/bowling-footer"
 
 export default function BowlingLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <>
-      <BowlingHeader />
+      {/* <BowlingHeader /> */}
       <main className="min-h-screen">{children}</main>
-      <BowlingFooter />
+      {/* <BowlingFooter /> */}
     </>
-  )
+  );
 }

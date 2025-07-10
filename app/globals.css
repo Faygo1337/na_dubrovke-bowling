@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -102,4 +103,35 @@ html {
   transition-property: transform, opacity, background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
+}
+
+.slide-text {
+  max-width: 100vw;
+  background-color: transparent;
+  padding: 1.2em 0;
+  font-family: 'Dela Gothic One', sans-serif;
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+.slide-text h1, .slide-text span {
+  display: inline-block;
+  font-size: 2.2em;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+}
+@media (min-width: 768px) {
+  .slide-text h1, .slide-text span {
+    font-size: 3.5em;
+  }
+}
+.slide-text > * {
+  animation: slide-text-move 12s linear infinite;
+}
+@keyframes slide-text-move {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }

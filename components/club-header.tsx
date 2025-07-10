@@ -1,15 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu, Phone } from "lucide-react"
-import { ClubBookingModal } from "@/components/club-booking-modal"
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
+import { Menu, Phone } from "lucide-react";
+import { ClubBookingModal } from "@/components/club-booking-modal";
+import { VisuallyHidden } from "@/components/ui/visually-hidden";
 
 export default function ClubHeader() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isBookingOpen, setIsBookingOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   return (
     <>
@@ -29,16 +36,28 @@ export default function ClubHeader() {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
-              <Link href="/club#menu" className="hover:text-amber-400 transition-colors">
+              <Link
+                href="/club#menu"
+                className="hover:text-amber-400 transition-colors"
+              >
                 Меню
               </Link>
-              <Link href="/club#bar" className="hover:text-amber-400 transition-colors">
+              <Link
+                href="/club#bar"
+                className="hover:text-amber-400 transition-colors"
+              >
                 Бар
               </Link>
-              <Link href="/club#gallery" className="hover:text-amber-400 transition-colors">
+              <Link
+                href="/club#gallery"
+                className="hover:text-amber-400 transition-colors"
+              >
                 Интерьер
               </Link>
-              <Link href="/club#prices" className="hover:text-amber-400 transition-colors">
+              <Link
+                href="/club#prices"
+                className="hover:text-amber-400 transition-colors"
+              >
                 Цена входа
               </Link>
               <Link
@@ -70,7 +89,16 @@ export default function ClubHeader() {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-black text-white border-gray-800">
+              <SheetContent
+                side="right"
+                className="bg-black text-white border-gray-800"
+              >
+                <VisuallyHidden>
+                  <SheetTitle>Мобильное меню</SheetTitle>
+                  <SheetDescription>
+                    Навигация по разделам сайта
+                  </SheetDescription>
+                </VisuallyHidden>
                 <div className="flex flex-col space-y-6 mt-8">
                   <Link
                     href="/club#menu"
@@ -114,8 +142,8 @@ export default function ClubHeader() {
                     </div>
                     <Button
                       onClick={() => {
-                        setIsOpen(false)
-                        setIsBookingOpen(true)
+                        setIsOpen(false);
+                        setIsBookingOpen(true);
                       }}
                       className="bg-amber-500 hover:bg-amber-600 text-black font-semibold w-full"
                     >
@@ -130,7 +158,10 @@ export default function ClubHeader() {
       </header>
 
       {/* Booking Modal */}
-      <ClubBookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
+      <ClubBookingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </>
-  )
+  );
 }

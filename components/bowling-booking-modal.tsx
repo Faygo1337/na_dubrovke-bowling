@@ -1,20 +1,23 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect, useCallback } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { format } from "date-fns"
-import { X, Home, ArrowRight } from "lucide-react"
+import { useState, useEffect, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { format } from "date-fns";
+import { X, Home, ArrowRight } from "lucide-react";
 
 interface BowlingBookingModalProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProps) {
+export function BowlingBookingModal({
+  isOpen,
+  onClose,
+}: BowlingBookingModalProps) {
   const [bookingData, setBookingData] = useState({
     name: "",
     phone: "",
@@ -26,33 +29,33 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
     players: "",
     comment: "",
     agreed: false,
-  })
+  });
 
-  const [isVisible, setIsVisible] = useState(false)
-  const [isAnimating, setIsAnimating] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      setIsVisible(true)
-      document.body.style.overflow = "hidden"
+      setIsVisible(true);
+      document.body.style.overflow = "hidden";
       const timer = setTimeout(() => {
-        setIsAnimating(true)
-      }, 50)
-      return () => clearTimeout(timer)
+        setIsAnimating(true);
+      }, 50);
+      return () => clearTimeout(timer);
     } else {
-      setIsAnimating(false)
-      document.body.style.overflow = "unset"
-      const timer = setTimeout(() => setIsVisible(false), 700)
-      return () => clearTimeout(timer)
+      setIsAnimating(false);
+      document.body.style.overflow = "unset";
+      const timer = setTimeout(() => setIsVisible(false), 700);
+      return () => clearTimeout(timer);
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   const handleClose = () => {
-    onClose()
-  }
+    onClose();
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (
       !bookingData.name ||
@@ -63,17 +66,19 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
       !bookingData.duration ||
       !bookingData.players
     ) {
-      alert("Пожалуйста, заполните все обязательные поля")
-      return
+      alert("Пожалуйста, заполните все обязательные поля");
+      return;
     }
 
     if (!bookingData.agreed) {
-      alert("Необходимо согласие на обработку персональных данных")
-      return
+      alert("Необходимо согласие на обработку персональных данных");
+      return;
     }
 
-    console.log("Bowling lane booking:", bookingData)
-    alert("Заявка на бронирование дорожки отправлена! Мы свяжемся с вами в течение 15 минут.")
+    console.log("Bowling lane booking:", bookingData);
+    alert(
+      "Заявка на бронирование дорожки отправлена! Мы свяжемся с вами в течение 15 минут."
+    );
 
     // Сброс формы
     setBookingData({
@@ -87,10 +92,10 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
       players: "",
       comment: "",
       agreed: false,
-    })
+    });
 
-    handleClose()
-  }
+    handleClose();
+  };
 
   const getAvailableTimes = useCallback(() => {
     const times = [
@@ -115,57 +120,65 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
       "21:00",
       "21:30",
       "22:00",
-    ]
+    ];
 
     // Фильтрация времени для сегодняшнего дня
     if (bookingData.date) {
-      const today = new Date()
-      const isToday = bookingData.date === format(today, "yyyy-MM-dd")
-      const currentHour = today.getHours()
+      const today = new Date();
+      const isToday = bookingData.date === format(today, "yyyy-MM-dd");
+      const currentHour = today.getHours();
 
       if (isToday) {
         return times.filter((time) => {
-          const timeHour = Number.parseInt(time.split(":")[0])
-          return timeHour > currentHour + 1
-        })
+          const timeHour = Number.parseInt(time.split(":")[0]);
+          return timeHour > currentHour + 1;
+        });
       }
     }
 
-    return times
-  }, [bookingData.date])
+    return times;
+  }, [bookingData.date]);
 
   // Сброс времени при изменении даты
   useEffect(() => {
     if (bookingData.date) {
-      const availableTimes = getAvailableTimes()
+      const availableTimes = getAvailableTimes();
       if (!availableTimes.includes(bookingData.time)) {
-        setBookingData((prev) => ({ ...prev, time: "" }))
+        setBookingData((prev) => ({ ...prev, time: "" }));
       }
     }
-  }, [bookingData.date, bookingData.time])
+  }, [bookingData.date, bookingData.time]);
 
-  if (!isVisible) return null
+  if (!isVisible) return null;
 
   return (
     <div className="fixed inset-0 z-[100]">
       {/* Backdrop */}
       <div
-        className={`absolute inset-0 bg-black/60 transition-opacity duration-500 ease-out ${isAnimating ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute inset-0 bg-black/60 transition-opacity duration-500 ease-out ${
+          isAnimating ? "opacity-100" : "opacity-0"
+        }`}
         onClick={handleClose}
       />
 
       {/* Modal */}
       <div
-        className={`relative w-full h-full bg-white text-slate-900 transition-all duration-700 ease-out overflow-y-auto ${isAnimating ? "translate-y-0" : "translate-y-full"
-          }`}
+        className={`relative w-full h-full bg-white text-slate-900 transition-all duration-700 ease-out overflow-y-auto ${
+          isAnimating ? "translate-y-0" : "translate-y-full"
+        }`}
       >
         {/* Header - Fixed */}
         <div
-          className={`sticky top-0 z-10 bg-white/90 backdrop-blur-sm border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between transition-all duration-700 delay-200 ease-out ${isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
+          className={`sticky top-0 z-10 bg-white/90 backdrop-blur-sm border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between transition-all duration-700 delay-200 ease-out ${
+            isAnimating
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4"
+          }`}
         >
-          <button onClick={handleClose} className="text-slate-600 hover:text-slate-900 transition-colors p-2 -ml-2">
+          <button
+            onClick={handleClose}
+            className="text-slate-600 hover:text-slate-900 transition-colors p-2 -ml-2"
+          >
             <Home className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
@@ -173,15 +186,21 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
             БРОНИРОВАНИЕ ДОРОЖКИ
           </h1>
 
-          <button onClick={handleClose} className="text-slate-600 hover:text-slate-900 transition-colors p-2 -mr-2">
+          <button
+            onClick={handleClose}
+            className="text-slate-600 hover:text-slate-900 transition-colors p-2 -mr-2"
+          >
             <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
         {/* Content - Scrollable */}
         <div
-          className={`min-h-[calc(100vh-80px)] flex items-center transition-all duration-700 delay-300 ease-out py-8 sm:py-12 lg:py-16 ${isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+          className={`min-h-[calc(100vh-80px)] flex items-center transition-all duration-700 delay-300 ease-out py-8 sm:py-12 lg:py-16 ${
+            isAnimating
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+          }`}
         >
           <div className="w-full px-4 sm:px-6 lg:px-8">
             {/* Mobile Layout */}
@@ -189,21 +208,29 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
               <div className="max-w-sm mx-auto space-y-8">
                 {/* Title for Mobile */}
                 <div
-                  className={`text-center transition-all duration-700 delay-300 ease-out ${isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                    }`}
+                  className={`text-center transition-all duration-700 delay-300 ease-out ${
+                    isAnimating
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-8"
+                  }`}
                 >
                   <h2 className="text-3xl sm:text-4xl font-black leading-tight tracking-tight mb-4 text-slate-900">
                     NA DUBROVKE
                     <br />
                     <span className="block text-orange-500">BOWLING</span>
                   </h2>
-                  <p className="text-sm text-slate-600 mb-2">+375 (29) 123-45-67</p>
+                  <p className="text-sm text-slate-600 mb-2">
+                    +375 (29) 123-45-67
+                  </p>
                 </div>
 
                 {/* Form for Mobile */}
                 <div
-                  className={`transition-all duration-700 delay-400 ease-out ${isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                    }`}
+                  className={`transition-all duration-700 delay-400 ease-out ${
+                    isAnimating
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-8"
+                  }`}
                 >
                   <h3 className="text-base font-light tracking-wide mb-6 text-center text-slate-700">
                     ЗАБРОНИРОВАТЬ ДОРОЖКУ
@@ -212,49 +239,77 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Name */}
                     <div className="space-y-2">
-                      <Label className="text-slate-600 text-sm font-light tracking-wide">Имя</Label>
+                      <Label className="text-slate-600 text-sm font-light tracking-wide">
+                        Имя
+                      </Label>
                       <Input
                         value={bookingData.name}
-                        onChange={(e) => setBookingData({ ...bookingData, name: e.target.value })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            name: e.target.value,
+                          })
+                        }
                         className="bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 placeholder:text-slate-400 focus:border-orange-500 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
-                        placeholder=""
+                        placeholder="Иван"
                         required
                       />
                     </div>
 
                     {/* Phone */}
                     <div className="space-y-2">
-                      <Label className="text-slate-600 text-sm font-light tracking-wide">Телефон</Label>
+                      <Label className="text-slate-600 text-sm font-light tracking-wide">
+                        Телефон
+                      </Label>
                       <Input
                         type="tel"
                         value={bookingData.phone}
-                        onChange={(e) => setBookingData({ ...bookingData, phone: e.target.value })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            phone: e.target.value,
+                          })
+                        }
                         className="bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 placeholder:text-slate-400 focus:border-orange-500 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
-                        placeholder=""
+                        placeholder="+375 (29) 123-45-67"
                         required
                       />
                     </div>
 
                     {/* Email */}
                     <div className="space-y-2">
-                      <Label className="text-slate-600 text-sm font-light tracking-wide">Email</Label>
+                      <Label className="text-slate-600 text-sm font-light tracking-wide">
+                        Email
+                      </Label>
                       <Input
                         type="email"
                         value={bookingData.email}
-                        onChange={(e) => setBookingData({ ...bookingData, email: e.target.value })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            email: e.target.value,
+                          })
+                        }
                         className="bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 placeholder:text-slate-400 focus:border-orange-500 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
-                        placeholder=""
+                        placeholder="example@gmail.com"
                       />
                     </div>
 
                     {/* Date and Time - Side by side on mobile */}
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label className="text-slate-600 text-sm font-light tracking-wide">Дата</Label>
+                        <Label className="text-slate-600 text-sm font-light tracking-wide">
+                          Дата
+                        </Label>
                         <input
                           type="date"
                           value={bookingData.date}
-                          onChange={(e) => setBookingData({ ...bookingData, date: e.target.value })}
+                          onChange={(e) =>
+                            setBookingData({
+                              ...bookingData,
+                              date: e.target.value,
+                            })
+                          }
                           className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors text-sm"
                           min={format(new Date(), "yyyy-MM-dd")}
                           required
@@ -262,10 +317,17 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-slate-600 text-sm font-light tracking-wide">Время</Label>
+                        <Label className="text-slate-600 text-sm font-light tracking-wide">
+                          Время
+                        </Label>
                         <select
                           value={bookingData.time}
-                          onChange={(e) => setBookingData({ ...bookingData, time: e.target.value })}
+                          onChange={(e) =>
+                            setBookingData({
+                              ...bookingData,
+                              time: e.target.value,
+                            })
+                          }
                           className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors appearance-none cursor-pointer text-sm"
                           disabled={!bookingData.date}
                           required
@@ -274,7 +336,11 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                             {bookingData.date ? "Время" : "Дата"}
                           </option>
                           {getAvailableTimes().map((time) => (
-                            <option key={time} value={time} className="bg-white text-slate-900">
+                            <option
+                              key={time}
+                              value={time}
+                              className="bg-white text-slate-900"
+                            >
                               {time}
                             </option>
                           ))}
@@ -285,10 +351,17 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                     {/* Lanes and Duration */}
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label className="text-slate-600 text-sm font-light tracking-wide">Дорожек</Label>
+                        <Label className="text-slate-600 text-sm font-light tracking-wide">
+                          Дорожек
+                        </Label>
                         <select
                           value={bookingData.lanes}
-                          onChange={(e) => setBookingData({ ...bookingData, lanes: e.target.value })}
+                          onChange={(e) =>
+                            setBookingData({
+                              ...bookingData,
+                              lanes: e.target.value,
+                            })
+                          }
                           className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors appearance-none cursor-pointer text-sm"
                           required
                         >
@@ -311,10 +384,17 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-slate-600 text-sm font-light tracking-wide">Время</Label>
+                        <Label className="text-slate-600 text-sm font-light tracking-wide">
+                          Длительность
+                        </Label>
                         <select
                           value={bookingData.duration}
-                          onChange={(e) => setBookingData({ ...bookingData, duration: e.target.value })}
+                          onChange={(e) =>
+                            setBookingData({
+                              ...bookingData,
+                              duration: e.target.value,
+                            })
+                          }
                           className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors appearance-none cursor-pointer text-sm"
                           required
                         >
@@ -324,7 +404,10 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                           <option value="1" className="bg-white text-slate-900">
                             1 час
                           </option>
-                          <option value="1.5" className="bg-white text-slate-900">
+                          <option
+                            value="1.5"
+                            className="bg-white text-slate-900"
+                          >
                             1.5 часа
                           </option>
                           <option value="2" className="bg-white text-slate-900">
@@ -342,10 +425,17 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
 
                     {/* Players */}
                     <div className="space-y-2">
-                      <Label className="text-slate-600 text-sm font-light tracking-wide">Количество игроков</Label>
+                      <Label className="text-slate-600 text-sm font-light tracking-wide">
+                        Количество игроков
+                      </Label>
                       <select
                         value={bookingData.players}
-                        onChange={(e) => setBookingData({ ...bookingData, players: e.target.value })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            players: e.target.value,
+                          })
+                        }
                         className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors appearance-none cursor-pointer text-sm"
                         required
                       >
@@ -381,10 +471,17 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
 
                     {/* Comment */}
                     <div className="space-y-2">
-                      <Label className="text-slate-600 text-sm font-light tracking-wide">Комментарий</Label>
+                      <Label className="text-slate-600 text-sm font-light tracking-wide">
+                        Комментарий
+                      </Label>
                       <textarea
                         value={bookingData.comment}
-                        onChange={(e) => setBookingData({ ...bookingData, comment: e.target.value })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            comment: e.target.value,
+                          })
+                        }
                         className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 placeholder:text-slate-400 focus:border-orange-500 focus:outline-none transition-colors resize-none text-sm"
                         rows={2}
                         placeholder="Дополнительные пожелания..."
@@ -397,7 +494,12 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                         type="checkbox"
                         id="agreement-mobile"
                         checked={bookingData.agreed}
-                        onChange={(e) => setBookingData({ ...bookingData, agreed: e.target.checked })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            agreed: e.target.checked,
+                          })
+                        }
                         className="mt-1 w-4 h-4 bg-transparent border border-slate-400 rounded text-orange-500 focus:ring-orange-500 focus:ring-2"
                       />
                       <Label
@@ -427,8 +529,11 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
             <div className="hidden lg:grid lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
               {/* Left Side - Title */}
               <div
-                className={`flex flex-col justify-center transition-all duration-700 delay-300 ease-out ${isAnimating ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
-                  }`}
+                className={`flex flex-col justify-center transition-all duration-700 delay-300 ease-out ${
+                  isAnimating
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-8"
+                }`}
               >
                 <h2 className="text-6xl xl:text-7xl 2xl:text-8xl font-black leading-none tracking-tight text-slate-900">
                   NA DUBROVKE
@@ -438,24 +543,35 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
 
                 {/* Phone Number */}
                 <div className="mt-16 xl:mt-24 2xl:mt-32">
-                  <p className="text-lg xl:text-xl font-light text-slate-600">+375 (29) 123-45-67</p>
+                  <p className="text-lg xl:text-xl font-light text-slate-600">
+                    +375 (29) 123-45-67
+                  </p>
                 </div>
               </div>
 
               {/* Right Side - Form */}
               <div
-                className={`flex flex-col justify-center w-full max-w-md mx-auto transition-all duration-700 delay-400 ease-out ${isAnimating ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
-                  }`}
+                className={`flex flex-col justify-center w-full max-w-md mx-auto transition-all duration-700 delay-400 ease-out ${
+                  isAnimating
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-8"
+                }`}
               >
-                <h3 className="text-xl font-light tracking-wide mb-12 text-slate-700">ЗАБРОНИРОВАТЬ ДОРОЖКУ</h3>
+                <h3 className="text-xl font-light tracking-wide mb-12 text-slate-700">
+                  ЗАБРОНИРОВАТЬ ДОРОЖКУ
+                </h3>
 
                 <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Name */}
                   <div className="space-y-2">
-                    <Label className="text-slate-600 text-sm font-light tracking-wide">Имя</Label>
+                    <Label className="text-slate-600 text-sm font-light tracking-wide">
+                      Имя
+                    </Label>
                     <Input
                       value={bookingData.name}
-                      onChange={(e) => setBookingData({ ...bookingData, name: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({ ...bookingData, name: e.target.value })
+                      }
                       className="bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 placeholder:text-slate-400 focus:border-orange-500 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                       placeholder=""
                       required
@@ -464,11 +580,18 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
 
                   {/* Phone */}
                   <div className="space-y-2">
-                    <Label className="text-slate-600 text-sm font-light tracking-wide">Телефон</Label>
+                    <Label className="text-slate-600 text-sm font-light tracking-wide">
+                      Телефон
+                    </Label>
                     <Input
                       type="tel"
                       value={bookingData.phone}
-                      onChange={(e) => setBookingData({ ...bookingData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({
+                          ...bookingData,
+                          phone: e.target.value,
+                        })
+                      }
                       className="bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 placeholder:text-slate-400 focus:border-orange-500 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                       placeholder=""
                       required
@@ -477,11 +600,18 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
 
                   {/* Email */}
                   <div className="space-y-2">
-                    <Label className="text-slate-600 text-sm font-light tracking-wide">Email</Label>
+                    <Label className="text-slate-600 text-sm font-light tracking-wide">
+                      Email
+                    </Label>
                     <Input
                       type="email"
                       value={bookingData.email}
-                      onChange={(e) => setBookingData({ ...bookingData, email: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({
+                          ...bookingData,
+                          email: e.target.value,
+                        })
+                      }
                       className="bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 placeholder:text-slate-400 focus:border-orange-500 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 outline-none"
                       placeholder=""
                     />
@@ -489,11 +619,15 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
 
                   {/* Date */}
                   <div className="space-y-2">
-                    <Label className="text-slate-600 text-sm font-light tracking-wide">Дата</Label>
+                    <Label className="text-slate-600 text-sm font-light tracking-wide">
+                      Дата
+                    </Label>
                     <input
                       type="date"
                       value={bookingData.date}
-                      onChange={(e) => setBookingData({ ...bookingData, date: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({ ...bookingData, date: e.target.value })
+                      }
                       className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors"
                       min={format(new Date(), "yyyy-MM-dd")}
                       required
@@ -502,19 +636,29 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
 
                   {/* Time */}
                   <div className="space-y-2">
-                    <Label className="text-slate-600 text-sm font-light tracking-wide">Время</Label>
+                    <Label className="text-slate-600 text-sm font-light tracking-wide">
+                      Время
+                    </Label>
                     <select
                       value={bookingData.time}
-                      onChange={(e) => setBookingData({ ...bookingData, time: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({ ...bookingData, time: e.target.value })
+                      }
                       className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors appearance-none cursor-pointer"
                       disabled={!bookingData.date}
                       required
                     >
                       <option value="" className="bg-white text-slate-900">
-                        {bookingData.date ? "Выберите время" : "Сначала выберите дату"}
+                        {bookingData.date
+                          ? "Выберите время"
+                          : "Сначала выберите дату"}
                       </option>
                       {getAvailableTimes().map((time) => (
-                        <option key={time} value={time} className="bg-white text-slate-900">
+                        <option
+                          key={time}
+                          value={time}
+                          className="bg-white text-slate-900"
+                        >
                           {time}
                         </option>
                       ))}
@@ -524,10 +668,17 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                   {/* Lanes and Duration */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-slate-600 text-sm font-light tracking-wide">Дорожек</Label>
+                      <Label className="text-slate-600 text-sm font-light tracking-wide">
+                        Дорожек
+                      </Label>
                       <select
                         value={bookingData.lanes}
-                        onChange={(e) => setBookingData({ ...bookingData, lanes: e.target.value })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            lanes: e.target.value,
+                          })
+                        }
                         className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors appearance-none cursor-pointer"
                         required
                       >
@@ -550,10 +701,17 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-slate-600 text-sm font-light tracking-wide">Длительность</Label>
+                      <Label className="text-slate-600 text-sm font-light tracking-wide">
+                        Длительность
+                      </Label>
                       <select
                         value={bookingData.duration}
-                        onChange={(e) => setBookingData({ ...bookingData, duration: e.target.value })}
+                        onChange={(e) =>
+                          setBookingData({
+                            ...bookingData,
+                            duration: e.target.value,
+                          })
+                        }
                         className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors appearance-none cursor-pointer"
                         required
                       >
@@ -581,10 +739,17 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
 
                   {/* Players */}
                   <div className="space-y-2">
-                    <Label className="text-slate-600 text-sm font-light tracking-wide">Количество игроков</Label>
+                    <Label className="text-slate-600 text-sm font-light tracking-wide">
+                      Количество игроков
+                    </Label>
                     <select
                       value={bookingData.players}
-                      onChange={(e) => setBookingData({ ...bookingData, players: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({
+                          ...bookingData,
+                          players: e.target.value,
+                        })
+                      }
                       className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 focus:border-orange-500 focus:outline-none transition-colors appearance-none cursor-pointer"
                       required
                     >
@@ -620,10 +785,17 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
 
                   {/* Comment */}
                   <div className="space-y-2">
-                    <Label className="text-slate-600 text-sm font-light tracking-wide">Комментарий</Label>
+                    <Label className="text-slate-600 text-sm font-light tracking-wide">
+                      Комментарий
+                    </Label>
                     <textarea
                       value={bookingData.comment}
-                      onChange={(e) => setBookingData({ ...bookingData, comment: e.target.value })}
+                      onChange={(e) =>
+                        setBookingData({
+                          ...bookingData,
+                          comment: e.target.value,
+                        })
+                      }
                       className="w-full bg-transparent border-0 border-b border-slate-300 rounded-none px-0 py-3 text-slate-900 placeholder:text-slate-400 focus:border-orange-500 focus:outline-none transition-colors resize-none"
                       rows={3}
                       placeholder="Дополнительные пожелания..."
@@ -636,7 +808,12 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
                       type="checkbox"
                       id="agreement-desktop"
                       checked={bookingData.agreed}
-                      onChange={(e) => setBookingData({ ...bookingData, agreed: e.target.checked })}
+                      onChange={(e) =>
+                        setBookingData({
+                          ...bookingData,
+                          agreed: e.target.checked,
+                        })
+                      }
                       className="mt-1 w-4 h-4 bg-transparent border border-slate-400 rounded text-orange-500 focus:ring-orange-500 focus:ring-2"
                     />
                     <Label
@@ -666,5 +843,5 @@ export function BowlingBookingModal({ isOpen, onClose }: BowlingBookingModalProp
         </div>
       </div>
     </div>
-  )
+  );
 }
