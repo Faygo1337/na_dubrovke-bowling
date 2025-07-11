@@ -42,3 +42,4 @@ next-env.d.ts
 
 #largest video file
 public/*.mov
+public/*.mp4
