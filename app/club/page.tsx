@@ -57,7 +57,7 @@ export default function ClubHomePage() {
               poster={poster}
             >
               <source
-                src="https://zyboer4evcqe2k0o.public.blob.vercel-storage.com/video/clubBg.mp4"
+                src="https://12ormbedoelpdllo.public.blob.vercel-storage.com/Club%20Background%20Video.mp4"
                 type="video/mp4"
               />
             </video>
