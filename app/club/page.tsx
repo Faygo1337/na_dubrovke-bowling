@@ -9,6 +9,7 @@ import { AnimatedFractureText } from "@/components/animated-fracture-text";
 import { motion } from "framer-motion";
 import SiteHeader from "@/components/site-header";
 
+// Lazy loading компонентов
 const LazyGallery = lazy(() => import("@/components/club-gallery"));
 
 export default function ClubHomePage() {
