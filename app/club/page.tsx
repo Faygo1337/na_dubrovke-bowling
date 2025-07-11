@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, MapPin, Phone, Clock } from "lucide-react";
 import { AnimatedSection } from "@/components/animated-section";
@@ -14,22 +14,56 @@ const LazyGallery = lazy(() => import("@/components/club-gallery"));
 
 export default function ClubHomePage() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
+  const [poster, setPoster] = useState("");
+  const delay = 3;
+
+  useEffect(() => {
+    const timerForStartVideo = setTimeout(() => {
+      setIsVideoVisible(true);
+    }, delay * 1000);
+    if (!isVideoVisible) {
+      return setPoster("/clubBar.webp");
+    }
+    return () => {
+      clearTimeout(timerForStartVideo);
+    };
+  }, [delay]); // дописать (придумать, чтобы был таймаут для анимации и при это не триггерился постер перед видео)
+
+  // useEffect(() => {
+  //   const posterTimer = setTimeout(() => {
+  //     if (!isVideoVisible) {
+  //       setPoster("/clubBar.webp");
+  //     }
+  //   }, delay * 1500);
+
+  //   return () => {
+  //     clearTimeout(posterTimer);
+  //   };
+  // }, [delay]);
 
   return (
     <>
       <div className="min-h-screen bg-black text-white overflow-hidden">
         <section className="relative h-screen flex items-center justify-center">
-          {/* Video Background */}
-          <video
-            className="absolute inset-0 w-full h-full object-cover z-0"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-          >
-            <source src="/clubBg.mp4" type="video/mp4" />
-          </video>
+          {isVideoVisible ? (
+            <video
+              className="absolute inset-0 w-full h-full object-cover z-0"
+              autoPlay={true}
+              loop
+              muted
+              playsInline
+              preload="auto"
+              poster={poster}
+            >
+              <source
+                src="https://zyboer4evcqe2k0o.public.blob.vercel-storage.com/video/clubBg.mp4"
+                type="video/mp4"
+              />
+            </video>
+          ) : (
+            <></>
+          )}
 
           <motion.div
             initial={{ y: -100, opacity: 0 }}
