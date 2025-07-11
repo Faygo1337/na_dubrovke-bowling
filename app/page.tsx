@@ -54,11 +54,11 @@ export default function Component() {
           <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight font-[\'Dela Gothic One\',_sans-serif]">
             Добро пожаловать на Дубровку
           </h1>
-          <p className="text-lg md:text-2xl text-gray-300 mb-10 font-[\'Montserrat\',_sans-serif]">
+          {/* <p className="text-lg md:text-2xl text-gray-300 mb-10 font-[\'Montserrat\',_sans-serif]">
             Лучший боулинг, клуб и ресторан в Могилеве. Здесь каждый найдет свой
             стильный отдых: современный боулинг, ночной клуб с атмосферой,
             караоке и изысканная кухня.
-          </p>
+          </p> */}
         </div>
         {/* Slide Text Animation */}
         <div className="slide-text-wrapper w-full flex justify-center relative z-10">
