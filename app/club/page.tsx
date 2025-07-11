@@ -51,7 +51,7 @@ export default function ClubHomePage() {
               className="absolute inset-0 w-full h-full object-cover z-0"
               autoPlay={true}
               loop
-              // muted
+              muted
               playsInline
               preload="auto"
               poster={poster}
