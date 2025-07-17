@@ -9,29 +9,31 @@ import Image from "next/image";
 import { BowlingBookingModal } from "@/components/bowling-booking-modal";
 import { ClubBookingModal } from "@/components/club-booking-modal";
 import { MobileNavigationModal } from "@/components/MobileNavigationModal";
-// import { useEffect } from "react";
-
+import { motion } from "framer-motion";
 export default function SiteHeader() {
   const pathname = usePathname();
   const [isBowlingBooking, setBowlingBooking] = useState(false);
   const [isClubBooking, setClubBooking] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Определяем активный раздел
   const isBowling = pathname.startsWith("/bowling");
   const isClub = pathname.startsWith("/club");
   const isHome = !isBowling && !isClub;
 
-  // Для кнопки бронирования
   const handleBooking = () => {
     if (isBowling) setBowlingBooking(true);
     else if (isClub) setClubBooking(true);
-    else setBowlingBooking(true); // по умолчанию боулинг
+    else setBowlingBooking(true);
   };
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md text-white border-b border-gray-800/50">
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        className="fixed top-0 left-0 right-0 z-50 w-full bg-black/80 backdrop-blur-md text-white border-b border-gray-800/50"
+      >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             <Link href="/" className="flex items-center space-x-2">
@@ -92,6 +94,7 @@ export default function SiteHeader() {
                 Забронировать
               </Button>
             </div>
+
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
@@ -104,7 +107,7 @@ export default function SiteHeader() {
             </Button>
           </div>
         </div>
-      </header>
+      </motion.header>
       <MobileNavigationModal
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}

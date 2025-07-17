@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import { Play } from "lucide-react"
+import { useState } from "react";
+import Image from "next/image";
+import { Play } from "lucide-react";
 
 export default function ClubGallery() {
-  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set())
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
 
   const handleImageLoad = (index: number) => {
-    setLoadedImages((prev) => new Set(prev).add(index))
-  }
+    setLoadedImages((prev) => new Set(prev).add(index));
+  };
 
   const galleryImages = [
     { src: "/placeholder.svg?height=400&width=600", alt: "Интерьер клуба 1" },
@@ -18,13 +18,15 @@ export default function ClubGallery() {
     { src: "/placeholder.svg?height=400&width=600", alt: "Интерьер клуба 4" },
     { src: "/placeholder.svg?height=400&width=600", alt: "Интерьер клуба 5" },
     { src: "/placeholder.svg?height=400&width=600", alt: "Интерьер клуба 6" },
-  ]
+  ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {galleryImages.map((image, i) => (
         <div key={i} className="relative group overflow-hidden rounded-lg">
-          {!loadedImages.has(i) && <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg"></div>}
+          {!loadedImages.has(i) && (
+            <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg"></div>
+          )}
           <Image
             src={image.src || "/placeholder.svg"}
             alt={image.alt}
@@ -42,5 +44,5 @@ export default function ClubGallery() {
         </div>
       ))}
     </div>
-  )
+  );
 }

@@ -27,7 +27,7 @@ export default function SiteFooter() {
               </div>
             </div>
             <p className="text-gray-300 text-sm">
-              Лучший боулинг и ночной клуб в Могилеве. Современные дорожки,
+              Лучший боулинг и ночной клуб в Могилеве. Проффесиональные дорожки,
               стильный интерьер, вкусная кухня и незабываемые впечатления для
               всей семьи и друзей.
             </p>
@@ -53,19 +53,19 @@ export default function SiteFooter() {
                 href="/bowling#menu"
                 className="block text-gray-300 hover:text-orange-400 transition-colors"
               >
-                Меню
+                Меню Боулинг
               </Link>
               <Link
                 href="/bowling#prices"
                 className="block text-gray-300 hover:text-orange-400 transition-colors"
               >
-                Цены
+                Цены Боулинг
               </Link>
               <Link
                 href="/bowling/events"
                 className="block text-gray-300 hover:text-orange-400 transition-colors"
               >
-                События
+                События Боулинг
               </Link>
               <Link
                 href="/club"
@@ -106,15 +106,23 @@ export default function SiteFooter() {
             <div className="space-y-3">
               <div className="flex items-center space-x-2 text-gray-300">
                 <MapPin className="w-4 h-4 text-orange-400" />
-                <span className="text-sm">ул. Дубровская, 15, Могилев</span>
+                <span className="text-sm">Проспект Мира, 21А, Могилев</span>
               </div>
               <div className="flex items-center space-x-2 text-gray-300">
                 <Phone className="w-4 h-4 text-orange-400" />
-                <span className="text-sm">+375 (29) 123-45-67</span>
+                <p className="text-sm">
+                  <span>+375 (29) 186-78-25</span>
+                  <br />
+                  <span>+375 (222) 62-85-62</span>
+                  <br />
+                  <span>+375 (222) 63-39-18</span>
+                </p>
+                <span className="text-sm"></span>
+                <span className="text-sm"></span>
               </div>
               <div className="flex items-center space-x-2 text-gray-300">
                 <Mail className="w-4 h-4 text-orange-400" />
-                <span className="text-sm">info@nadubrovke.by</span>
+                <span className="text-sm">nadubrovke1@gmail.com</span>
               </div>
             </div>
           </div>

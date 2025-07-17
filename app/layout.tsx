@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin", "cyrillic"] });
 export const metadata: Metadata = {
   title: "Na Dubrovke - Боулинг и Клуб в Могилеве",
   description:
-    "Лучший боулинг-клуб в Могилеве. Боулинг, ресторан, бар и развлечения для всей семьи.",
+    "Лучший боулинг-клуб в Могилеве. Боулинг, ресторан, банкетный зал, караоке, клуб и развлечения для всей семьи.",
 };
 
 export default function RootLayout({
@@ -25,11 +25,9 @@ export default function RootLayout({
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <body className={inter.className}>
         <SiteHeader />
-        {/* <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange> */}
 
         {children}
         <SiteFooter />
-        {/* </ThemeProvider> */}
       </body>
     </html>
   );

@@ -7,28 +7,48 @@ import { AnimatedSection } from "@/components/animated-section";
 import { ClubBookingModal } from "@/components/club-booking-modal";
 import { AnimatedFractureText } from "@/components/animated-fracture-text";
 import { motion } from "framer-motion";
-import SiteHeader from "@/components/site-header";
-
+import { isMobile } from "react-device-detect";
 // Lazy loading компонентов
 const LazyGallery = lazy(() => import("@/components/club-gallery"));
 
 export default function ClubHomePage() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [isVideoVisible, setIsVideoVisible] = useState(false);
-  const [poster, setPoster] = useState("");
-  const delay = 3;
+  const [videoSrc, setVideoSrc] = useState<string>("");
+  const [videoSrcMp4, setVideoSrcMp4] = useState<string>("");
 
+  // Решение проблемы гидратации: определяем src только на клиенте
   useEffect(() => {
-    const timerForStartVideo = setTimeout(() => {
-      setIsVideoVisible(true);
-    }, delay * 1000);
-    if (!isVideoVisible) {
-      return setPoster("/clubBar.webp");
+    if (isMobile) {
+      setVideoSrcMp4(
+        "https://12ormbedoelpdllo.public.blob.vercel-storage.com/mainClubBgMobile1.mp4"
+      );
+    } else {
+      setVideoSrc(
+        "https://12ormbedoelpdllo.public.blob.vercel-storage.com/mainBgClub.webm"
+      );
     }
-    return () => {
-      clearTimeout(timerForStartVideo);
-    };
-  }, [delay]); // дописать (придумать, чтобы был таймаут для анимации и при это не триггерился постер перед видео)
+  }, []);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setIsAnimationsDone(true), 0);
+  //   return () => clearTimeout(timer);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (!isAnimationsDone) return;
+  //   let objectUrl: string | null = null;
+  //   fetch(
+  //     "https://12ormbedoelpdllo.public.blob.vercel-storage.com/clubBg33.mp4"
+  //   )
+  //     .then((r) => r.blob())
+  //     .then((blob) => {
+  //       objectUrl = URL.createObjectURL(blob);
+  //       setVideoUrl(objectUrl);
+  //     });
+  //   return () => {
+  //     if (objectUrl) URL.revokeObjectURL(objectUrl);
+  //   };
+  // }, [isAnimationsDone]);
 
   // useEffect(() => {
   //   const posterTimer = setTimeout(() => {
@@ -41,45 +61,30 @@ export default function ClubHomePage() {
   //     clearTimeout(posterTimer);
   //   };
   // }, [delay]);
-
+  // console.log(videoUrl);
   return (
     <>
       <div className="min-h-screen bg-black text-white overflow-hidden">
         <section className="relative h-screen flex items-center justify-center">
-          {isVideoVisible ? (
-            <video
-              className="absolute inset-0 w-full h-full object-cover z-0"
-              autoPlay={true}
-              loop
-              muted
-              playsInline
-              preload="auto"
-              poster={poster}
-            >
-              <source
-                src="https://12ormbedoelpdllo.public.blob.vercel-storage.com/clubb1.mp4"
-                type="video/mp4"
-              />
-            </video>
-          ) : (
-            <></>
-          )}
-
-          <motion.div
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="fixed top-0 left-0 w-full z-20"
+          <video
+            className="absolute inset-0 w-full h-full object-cover z-0"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            // poster="/clubBar.webp"
           >
-            <SiteHeader />
-          </motion.div>
-
+            {videoSrc && <source src={videoSrc} type="video/webm" />}
+            {videoSrcMp4 && <source src={videoSrcMp4} type="video/mp4" />}
+            Ваш браузер не поддерживает видео.
+          </video>
           <div className="relative z-10 text-left max-w-6xl mx-auto px-4 flex flex-col items-start justify-center h-full">
             <motion.h1
               initial={{ x: -200, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 1, ease: "easeOut" }}
-              className="flex flex-col text-[5rem] md:text-[8rem] lg:text-[12rem] font-black tracking-wider mb-16 leading-none"
+              className="flex flex-col text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[7rem] xl:text-[9rem] 2xl:text-[12rem] font-black tracking-wider mb-16 leading-none"
               style={{ lineHeight: 1 }}
             >
               <span className="block">NA</span>
@@ -92,7 +97,11 @@ export default function ClubHomePage() {
             >
               <AnimatedFractureText
                 onClick={() => setIsBookingOpen(true)}
-                style={{ fontSize: "2.5rem", width: "100%", maxWidth: "100%" }}
+                style={{
+                  fontSize: "clamp(1.2rem, 3.5vw, 2.5rem)",
+                  width: "100%",
+                  maxWidth: "100%",
+                }}
               >
                 ЗАБРОНИРОВАТЬ
               </AnimatedFractureText>
@@ -123,15 +132,15 @@ export default function ClubHomePage() {
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500"></div>
 
                     {/* Menu Content */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-12">
-                      <h2 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-wider">
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 md:p-12">
+                      <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 md:mb-8 tracking-wider">
                         МЕНЮ
                       </h2>
                       <Button
                         variant="outline"
-                        className="w-fit bg-black/50 border-white/30 text-white hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm"
+                        className="w-fit bg-black/50 border-white/30 text-white hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm text-sm sm:text-base"
                       >
-                        <ExternalLink className="mr-2 w-4 h-4" />
+                        <ExternalLink className="mr-2 w-3 h-3 sm:w-4 sm:h-4" />
                         PDF
                       </Button>
                     </div>
@@ -151,15 +160,15 @@ export default function ClubHomePage() {
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500"></div>
 
                     {/* Bar Content */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-12">
-                      <h2 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-wider">
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 md:p-12">
+                      <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 md:mb-8 tracking-wider">
                         БАР
                       </h2>
                       <Button
                         variant="outline"
-                        className="w-fit bg-black/50 border-white/30 text-white hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm"
+                        className="w-fit bg-black/50 border-white/30 text-white hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm text-sm sm:text-base"
                       >
-                        <ExternalLink className="mr-2 w-4 h-4" />
+                        <ExternalLink className="mr-2 w-3 h-3 sm:w-4 sm:h-4" />
                         PDF
                       </Button>
                     </div>
@@ -177,10 +186,10 @@ export default function ClubHomePage() {
               <div className="max-w-4xl mx-auto text-center">
                 <div className="mb-16">
                   <div className="w-24 h-px bg-amber-400 mx-auto mb-8"></div>
-                  <h2 className="text-4xl md:text-6xl font-light mb-8 tracking-wide">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-6 sm:mb-8 tracking-wide">
                     О КЛУБЕ
                   </h2>
-                  <p className="text-xl text-gray-300 leading-relaxed">
+                  <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
                     Na Dubrovke — это не просто ночной клуб, это культурное
                     пространство, где встречаются любители качественной музыки,
                     изысканных напитков и безупречного сервиса.
@@ -195,9 +204,9 @@ export default function ClubHomePage() {
         <section id="prices" className="py-24 bg-black">
           <div className="container mx-auto px-4">
             <AnimatedSection animation="fadeInUp">
-              <div className="text-center mb-16">
-                <div className="w-24 h-px bg-amber-400 mx-auto mb-8"></div>
-                <h2 className="text-4xl md:text-6xl font-light mb-8 tracking-wide">
+              <div className="text-center mb-12 sm:mb-16">
+                <div className="w-24 h-px bg-amber-400 mx-auto mb-6 sm:mb-8"></div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-6 sm:mb-8 tracking-wide">
                   ЦЕНЫ ВХОДА
                 </h2>
               </div>
@@ -289,9 +298,9 @@ export default function ClubHomePage() {
         <section id="gallery" className="py-24 bg-gray-900/30">
           <div className="container mx-auto px-4">
             <AnimatedSection animation="fadeInUp">
-              <div className="text-center mb-16">
-                <div className="w-24 h-px bg-amber-400 mx-auto mb-8"></div>
-                <h2 className="text-4xl md:text-6xl font-light mb-8 tracking-wide">
+              <div className="text-center mb-12 sm:mb-16">
+                <div className="w-24 h-px bg-amber-400 mx-auto mb-6 sm:mb-8"></div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-6 sm:mb-8 tracking-wide">
                   ИНТЕРЬЕР
                 </h2>
               </div>
@@ -318,9 +327,9 @@ export default function ClubHomePage() {
         <section className="py-24 bg-black">
           <div className="container mx-auto px-4">
             <AnimatedSection animation="fadeInUp">
-              <div className="text-center mb-16">
-                <div className="w-24 h-px bg-amber-400 mx-auto mb-8"></div>
-                <h2 className="text-4xl md:text-6xl font-light mb-8 tracking-wide">
+              <div className="text-center mb-12 sm:mb-16">
+                <div className="w-24 h-px bg-amber-400 mx-auto mb-6 sm:mb-8"></div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-6 sm:mb-8 tracking-wide">
                   КОНТАКТЫ
                 </h2>
               </div>
@@ -359,7 +368,7 @@ export default function ClubHomePage() {
                 <AnimatedFractureText
                   onClick={() => setIsBookingOpen(true)}
                   style={{
-                    fontSize: "2.5rem",
+                    fontSize: "clamp(1.2rem, 3.5vw, 2.5rem)",
                     width: "100%",
                     maxWidth: "100%",
                   }}
