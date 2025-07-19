@@ -38,15 +38,15 @@ export default function SiteHeader() {
           <div className="flex items-center justify-between h-20">
             <Link href="/" className="flex items-center space-x-2">
               <Image
-                src="/Logo.webp"
+                src="/LogoClubBowling.webp"
                 alt="Logo"
-                width={48}
-                height={48}
+                width={150}
+                height={150}
                 priority={true}
               />
-              <span className="font-bold text-xl hidden sm:inline">
+              {/* <span className="font-bold text-xl hidden sm:inline">
                 Na Dubrovke
-              </span>
+              </span> */}
             </Link>
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
@@ -85,7 +85,7 @@ export default function SiteHeader() {
             <div className="hidden lg:flex items-center space-x-4">
               <div className="flex items-center space-x-2 text-sm">
                 <Phone className="w-4 h-4" />
-                <span>+375 (29) 123-45-67</span>
+                <span>+375 (29) 186-78-25</span>
               </div>
               <Button
                 onClick={handleBooking}

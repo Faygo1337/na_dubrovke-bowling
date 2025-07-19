@@ -20,6 +20,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { BowlingBookingModal } from "@/components/bowling-booking-modal";
+import PriceTable from "./PriceTable";
 
 export default function BowlingHomePage() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -67,6 +68,9 @@ export default function BowlingHomePage() {
               </Button>
             </div>
           </div>
+        </div>
+        <div className="absolute bottom-8 right-8 text-white/60 writing-mode-vertical text-sm tracking-widest z-10">
+          SCROLL
         </div>
       </section>
 
@@ -199,76 +203,8 @@ export default function BowlingHomePage() {
       </section>
 
       {/* Prices Section */}
-      <section id="prices" className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <Badge className="bg-orange-500 text-white mb-4">Цены</Badge>
-            <h2 className="text-4xl font-bold mb-4">Стоимость игры</h2>
-            <p className="text-xl text-gray-600">
-              Доступные цены для всей семьи
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="border-2 border-gray-200 hover:border-orange-500 transition-colors">
-              <CardContent className="p-8 text-center">
-                <h3 className="text-2xl font-bold mb-4">БУДНИ</h3>
-                <div className="text-sm text-gray-600 mb-2">
-                  Понедельник - Четверг
-                </div>
-                <div className="text-4xl font-bold text-orange-500 mb-4">
-                  25 BYN
-                </div>
-                <p className="text-gray-600 mb-4">за дорожку в час</p>
-                <div className="space-y-2 text-sm">
-                  <div>12:00 - 18:00</div>
-                  <div className="text-orange-500 font-semibold">
-                    20 BYN после 18:00
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-2 border-orange-500 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-orange-500 text-white px-4 py-1">
-                  ПОПУЛЯРНО
-                </Badge>
-              </div>
-              <CardContent className="p-8 text-center">
-                <h3 className="text-2xl font-bold mb-4">ПЯТНИЦА</h3>
-                <div className="text-sm text-gray-600 mb-2">Пятница</div>
-                <div className="text-4xl font-bold text-orange-500 mb-4">
-                  35 BYN
-                </div>
-                <p className="text-gray-600 mb-4">за дорожку в час</p>
-                <div className="space-y-2 text-sm">
-                  <div>12:00 - 18:00</div>
-                  <div className="text-orange-500 font-semibold">
-                    40 BYN после 18:00
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-2 border-gray-200 hover:border-orange-500 transition-colors">
-              <CardContent className="p-8 text-center">
-                <h3 className="text-2xl font-bold mb-4">ВЫХОДНЫЕ</h3>
-                <div className="text-sm text-gray-600 mb-2">
-                  Суббота - Воскресенье
-                </div>
-                <div className="text-4xl font-bold text-orange-500 mb-4">
-                  40 BYN
-                </div>
-                <p className="text-gray-600 mb-4">за дорожку в час</p>
-                <div className="space-y-2 text-sm">
-                  <div>Весь день</div>
-                  <div className="text-gray-500">Единая цена</div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+      <section id="prices">
+        <PriceTable />
       </section>
 
       {/* Gallery Section */}

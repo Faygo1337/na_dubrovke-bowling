@@ -135,3 +135,37 @@ html {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
+
+/* Custom fade-in animations for zone sections */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(32px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInRight {
+  0% { opacity: 0; transform: translateX(32px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInLeft {
+  0% { opacity: 0; transform: translateX(-32px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 1s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
+}
+.animate-fade-in-right {
+  opacity: 0;
+  animation: fadeInRight 1s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
+}
+.animate-fade-in-left {
+  opacity: 0;
+  animation: fadeInLeft 1s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
+}
+.animate-fade-in {
+  opacity: 0;
+  animation: fadeIn 1s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
+}
