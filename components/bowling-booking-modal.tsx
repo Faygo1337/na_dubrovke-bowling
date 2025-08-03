@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
-import { X, Home, ArrowRight } from "lucide-react";
+import { X, Home, ArrowRight, Phone } from "lucide-react";
+import Link from "next/link";
 
 interface BowlingBookingModalProps {
   isOpen: boolean;
@@ -219,9 +220,15 @@ export function BowlingBookingModal({
                     <br />
                     <span className="block text-orange-500">BOWLING</span>
                   </h2>
-                  <p className="text-sm text-slate-600 mb-2">
-                    +375 (29) 123-45-67
-                  </p>
+                  <div className="text-sm text-slate-600 mb-2 ">
+                    <Link
+                      href="tel:+375291867825"
+                      className="flex items-center justify-center"
+                    >
+                      <Phone className="mr-2 w-5 h-5" />
+                      +375 (29) 186-78-25
+                    </Link>
+                  </div>
                 </div>
 
                 {/* Form for Mobile */}
@@ -543,9 +550,10 @@ export function BowlingBookingModal({
 
                 {/* Phone Number */}
                 <div className="mt-16 xl:mt-24 2xl:mt-32">
-                  <p className="text-lg xl:text-xl font-light text-slate-600">
-                    +375 (29) 123-45-67
-                  </p>
+                  <Link href="tel:+375291867825" className="flex items-center">
+                    <Phone className="mr-2 w-5 h-5" />
+                    +375 (29) 186-78-25
+                  </Link>
                 </div>
               </div>
 

@@ -21,7 +21,7 @@ export default function PriceTable() {
       time: "17:00-24:00",
       price: "40,00",
       icon: Zap,
-      popular: true,
+      popular: false,
     },
     {
       id: 3,
@@ -41,7 +41,7 @@ export default function PriceTable() {
       time: "12:00-04:00",
       price: "55,00",
       icon: Users,
-      popular: false,
+      popular: true,
     },
     {
       id: 5,
@@ -56,13 +56,11 @@ export default function PriceTable() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-6">
+    <div className="min-h-screen bg-white py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header - Адаптивный */}
         <div className="text-center mb-8 sm:mb-10 lg:mb-12">
-          <Badge className="mb-3 sm:mb-4 bg-orange-500 hover:bg-orange-600 text-white px-4 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold">
-            Прайс-лист
-          </Badge>
+          <Badge className="bg-orange-500 text-white mb-4">Прайс-лист</Badge>
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">
             Стоимость услуг
           </h1>
@@ -351,7 +349,7 @@ export default function PriceTable() {
               </h3>
             </div>
             <p className="text-gray-600 text-xs sm:text-sm">
-              Специальные предложения для постоянных клиентов
+              Специальные предложения для наших клиентов
             </p>
           </div>
 
@@ -365,7 +363,7 @@ export default function PriceTable() {
               </h3>
             </div>
             <p className="text-gray-600 text-xs sm:text-sm">
-              Предварительное бронирование по телефону
+              Предварительное бронирование по форме или по телефону
             </p>
           </div>
         </div>

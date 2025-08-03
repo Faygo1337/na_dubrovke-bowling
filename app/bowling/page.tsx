@@ -20,7 +20,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { BowlingBookingModal } from "@/components/bowling-booking-modal";
-import PriceTable from "./PriceTable";
+import PriceTable from "../../components/PriceTable";
 
 export default function BowlingHomePage() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -160,13 +160,15 @@ export default function BowlingHomePage() {
                   <h2 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-wider">
                     МЕНЮ
                   </h2>
-                  <Button
-                    variant="outline"
-                    className="w-fit bg-black/50 border-white/30 text-white hover:bg-orange-500 hover:text-white transition-all duration-300 backdrop-blur-sm"
-                  >
-                    <ExternalLink className="mr-2 w-4 h-4" />
-                    PDF
-                  </Button>
+                  <Link href="https://12ormbedoelpdllo.public.blob.vercel-storage.com/MenuNaDubrovke.pdf">
+                    <Button
+                      variant="outline"
+                      className="w-fit bg-black/50 border-white/30 text-white hover:bg-orange-500 hover:text-white transition-all duration-300 backdrop-blur-sm"
+                    >
+                      <ExternalLink className="mr-2 w-4 h-4" />
+                      PDF
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -188,13 +190,19 @@ export default function BowlingHomePage() {
                   <h2 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-wider">
                     БАР
                   </h2>
-                  <Button
-                    variant="outline"
-                    className="w-fit bg-black/50 border-white/30 text-white hover:bg-orange-500 hover:text-white transition-all duration-300 backdrop-blur-sm"
+                  <Link
+                    href={
+                      "https://12ormbedoelpdllo.public.blob.vercel-storage.com/BarNaDubrovke.pdf"
+                    }
                   >
-                    <ExternalLink className="mr-2 w-4 h-4" />
-                    PDF
-                  </Button>
+                    <Button
+                      variant="outline"
+                      className="w-fit bg-black/50 border-white/30 text-white hover:bg-orange-500 hover:text-white transition-all duration-300 backdrop-blur-sm"
+                    >
+                      <ExternalLink className="mr-2 w-4 h-4" />
+                      PDF
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -309,47 +317,14 @@ export default function BowlingHomePage() {
               variant="outline"
               className="border-white text-white hover:bg-white hover:text-orange-500 text-lg px-8 py-4 bg-transparent"
             >
-              <Link href="tel:+375291234567" className="flex items-center">
+              <Link href="tel:+375291867825" className="flex items-center">
                 <Phone className="mr-2 w-5 h-5" />
-                +375 (29) 123-45-67
+                375 (29) 186-78-25
               </Link>
             </Button>
           </div>
         </div>
       </section>
-
-      <div style={{ position: "relative", overflow: "hidden" }}>
-        <a
-          href="https://yandex.by/maps/158/mogilev/?utm_medium=mapframe&utm_source=maps"
-          style={{
-            color: "#eee",
-            fontSize: "12px",
-            position: "absolute",
-            top: "0px",
-          }}
-        >
-          Могилёв
-        </a>
-        <a
-          href="https://yandex.by/maps/158/mogilev/house/Z0kYdQVnSUEEQFtpfXVxeHpkbA==/?ll=30.327043%2C53.909678&utm_medium=mapframe&utm_source=maps&z=17.28"
-          style={{
-            color: "#eee",
-            fontSize: "12px",
-            position: "absolute",
-            top: "14px",
-          }}
-        >
-          Проспект Мира, 21А — Яндекс Карты
-        </a>
-        <iframe
-          src="https://yandex.by/map-widget/v1/?ll=30.327043%2C53.909678&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgoxNTkyNjIwOTMyEkHQkdC10LvQsNGA0YPRgdGMLCDQnNCw0LPRltC70ZHRniwg0L_RgNCw0YHQv9C10LrRgiDQnNGW0YDRgywgMjHQkCIKDced8kEVg6NXQg%2C%2C&z=17.28"
-          width="100%"
-          height="400"
-          frameBorder="0"
-          allowFullScreen={true}
-          style={{ position: "relative" }}
-        ></iframe>
-      </div>
 
       {/* BowlingBookingModal */}
       <BowlingBookingModal

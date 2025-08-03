@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=My+Soul&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -168,4 +169,49 @@ html {
 .animate-fade-in {
   opacity: 0;
   animation: fadeIn 1s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
+}
+
+.header-link {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+  padding-bottom: 2px;
+}
+.header-link::after {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  content: "";
+  transition: width 0.3s ease-out;
+}
+.header-link:hover::after,
+.header-link:focus::after {
+  width: 100%;
+}
+.header-link--active::after {
+  width: 100%;
+}
+
+/* Mobile Menu Button Styles */
+.mobile-menu-button {
+  border-radius: 0;
+  background: none;
+  border: 5px solid white;
+  font-family: 'Dela Gothic One', sans-serif;
+  letter-spacing: 0.8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+}
+
+.mobile-menu-button:hover {
+  background: var(--button-color);
+  color: white;
 }

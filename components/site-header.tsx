@@ -6,26 +6,15 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Menu, Phone } from "lucide-react";
 import Image from "next/image";
-import { BowlingBookingModal } from "@/components/bowling-booking-modal";
-import { ClubBookingModal } from "@/components/club-booking-modal";
 import { MobileNavigationModal } from "@/components/MobileNavigationModal";
 import { motion } from "framer-motion";
 export default function SiteHeader() {
   const pathname = usePathname();
-  const [isBowlingBooking, setBowlingBooking] = useState(false);
-  const [isClubBooking, setClubBooking] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isBowling = pathname.startsWith("/bowling");
   const isClub = pathname.startsWith("/club");
   const isHome = !isBowling && !isClub;
-
-  const handleBooking = () => {
-    if (isBowling) setBowlingBooking(true);
-    else if (isClub) setClubBooking(true);
-    else setBowlingBooking(true);
-  };
-
   return (
     <>
       <motion.header
@@ -35,15 +24,18 @@ export default function SiteHeader() {
         className="fixed top-0 left-0 right-0 z-50 w-full bg-black/80 backdrop-blur-md text-white border-b border-gray-800/50"
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-18 lg:h-20">
             <Link href="/" className="flex items-center space-x-2">
-              <Image
-                src="/LogoClubBowling.webp"
-                alt="Logo"
-                width={150}
-                height={150}
-                priority={true}
-              />
+              <div className="relative w-24 h-12 sm:w-32 sm:h-16 md:w-36 md:h-20 lg:w-40 lg:h-24">
+                <Image
+                  src="/LogoClubBowling.webp"
+                  alt="Logo"
+                  fill
+                  priority={true}
+                  sizes="(max-width: 640px) 96px, (max-width: 1024px) 128px, 160px"
+                  className="object-contain"
+                />
+              </div>
               {/* <span className="font-bold text-xl hidden sm:inline">
                 Na Dubrovke
               </span> */}
@@ -52,47 +44,53 @@ export default function SiteHeader() {
             <nav className="hidden lg:flex items-center space-x-8">
               <Link
                 href="/"
-                className={
-                  isHome
-                    ? "text-amber-400 font-bold"
-                    : "hover:text-amber-400 transition-colors"
-                }
+                className={`header-link${isHome ? " header-link--active" : ""}`}
               >
                 Главная
               </Link>
               <Link
                 href="/bowling"
-                className={
-                  isBowling
-                    ? "text-orange-400 font-bold"
-                    : "hover:text-orange-400 transition-colors"
-                }
+                className={`header-link${
+                  isBowling ? " header-link--active" : ""
+                }`}
               >
                 Боулинг
               </Link>
               <Link
                 href="/club"
-                className={
-                  isClub
-                    ? "text-purple-400 font-bold"
-                    : "hover:text-purple-400 transition-colors"
-                }
+                className={`header-link${isClub ? " header-link--active" : ""}`}
               >
                 Клуб
+              </Link>
+              <Link
+                href="/karaoke"
+                className={`header-link${isClub ? " header-link--active" : ""}`}
+              >
+                Караоке
+              </Link>
+              <Link
+                href="/banquet"
+                className={`header-link${isClub ? " header-link--active" : ""}`}
+              >
+                Банкеты
+              </Link>
+              <Link
+                href="/delivery"
+                className={`header-link${isClub ? " header-link--active" : ""}`}
+              >
+                Доставка
+              </Link>
+              <Link
+                href="/promotions"
+                className={`header-link${isClub ? " header-link--active" : ""}`}
+              >
+                Акции
               </Link>
             </nav>
             {/* Контакты и бронирование */}
             <div className="hidden lg:flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-sm">
-                <Phone className="w-4 h-4" />
-                <span>+375 (29) 186-78-25</span>
-              </div>
-              <Button
-                onClick={handleBooking}
-                className="bg-amber-500 hover:bg-amber-600 text-black font-semibold"
-              >
-                Забронировать
-              </Button>
+              <Phone className="w-4 h-4" />
+              <span>+375 (29) 186-78-25</span>
             </div>
 
             {/* Mobile Menu Button */}
@@ -111,15 +109,6 @@ export default function SiteHeader() {
       <MobileNavigationModal
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
-      />
-      {/* Booking Modals */}
-      <BowlingBookingModal
-        isOpen={isBowlingBooking}
-        onClose={() => setBowlingBooking(false)}
-      />
-      <ClubBookingModal
-        isOpen={isClubBooking}
-        onClose={() => setClubBooking(false)}
       />
     </>
   );

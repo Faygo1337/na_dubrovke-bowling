@@ -47,32 +47,31 @@ export default function Component() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       {/* Приветственный блок */}
-      <section className="relative flex flex-col items-center justify-center min-h-[100vh] bg-transparent text-white py-20 px-4 text-center overflow-hidden">
+      <section className="relative flex flex-col items-center justify-center min-h-[100vh] bg-transparent text-white py-12 md:py-20 px-2 sm:px-4 text-center overflow-hidden">
         {/* Фоновый слайдер */}
         <SliderBackground />
 
         <div className="relative mt-8 z-10 max-w-3xl mx-auto flex flex-col items-center">
           <h1
-            className="text-7xl md:text-8xl font-black mb-8 font-['Dela Gothic One',_sans-serif] text-amber-400 drop-shadow-2xl animate-fade-in-up"
+            className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-black mb-4 sm:mb-8 font-['Dela Gothic One',_sans-serif] text-amber-400 drop-shadow-2xl animate-fade-in-up"
             style={{ animationDelay: "0.1s" }}
           >
             NA DUBROVKE
           </h1>
           <span
-            className="block w-24 h-1 bg-amber-500 rounded-full mb-6 animate-fade-in"
+            className="block w-16 sm:w-24 h-1 bg-amber-500 rounded-full mb-4 sm:mb-6 animate-fade-in"
             style={{ animationDelay: "0.15s" }}
           />
-
           <h2
-            className="text-5xl md:text-7xl font-black mb-4 font-['Dela Gothic One',_sans-serif] drop-shadow-xl animate-fade-in-up"
+            className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-black mb-2 sm:mb-4 font-['Dela Gothic One',_sans-serif] drop-shadow-xl animate-fade-in-up"
             style={{ animationDelay: "0.2s" }}
           >
             Добро пожаловать
           </h2>
           <p
-            className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto mb-0 font-['Montserrat',_sans-serif] animate-fade-in-up"
+            className="text-base xs:text-lg sm:text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto mb-0 font-['Montserrat',_sans-serif] animate-fade-in-up"
             style={{ animationDelay: "0.3s" }}
           >
             Современный боулинг, ночной клуб, караоке и ресторан в центре
@@ -80,36 +79,9 @@ export default function Component() {
             дорожки, лучшие вечеринки, уютные залы и изысканная кухня.
           </p>
         </div>
-        <div className="absolute bottom-8 right-8 text-white/60 writing-mode-vertical text-sm tracking-widest z-10">
+        <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 text-white/60 writing-mode-vertical text-xs sm:text-sm tracking-widest z-10 hidden sm:block">
           SCROLL
         </div>
-      </section>
-
-      {/* Слайдер и остальной контент */}
-      {/* Welcome Section */}
-      <section className="relative flex flex-col items-center justify-center min-h-[60vh] bg-black text-white overflow-hidden py-16">
-        <div className="relative z-10 max-w-2xl text-center px-4">
-          <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight font-[\'Dela Gothic One\',_sans-serif]">
-            Na Dubrovke
-            <br />
-            Добро пожаловать!
-          </h1>
-          {/* <p className="text-lg md:text-2xl text-gray-300 mb-10 font-[\'Montserrat\',_sans-serif]">
-            Лучший боулинг, клуб и ресторан в Могилеве. Здесь каждый найдет свой
-            стильный отдых: современный боулинг, ночной клуб с атмосферой,
-            караоке и изысканная кухня.
-          </p> */}
-        </div>
-        {/* Slide Text Animation */}
-        <div className="slide-text-wrapper w-full flex justify-center relative z-10">
-          <div className="slide-text text-white select-none">
-            <span>&nbsp;ОТДЫХАЙ КРАСИВО ОТДЫХАЙ КРАСИВО</span>
-            <h1>&nbsp;ОТДЫХАЙ КРАСИВО ОТДЫХАЙ КРАСИВО&nbsp;</h1>
-            <span>ОТДЫХАЙ КРАСИВО ОТДЫХАЙ КРАСИВО</span>
-          </div>
-        </div>
-        {/* Фоновый градиент */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/80 to-transparent pointer-events-none" />
       </section>
 
       {/* Main Content */}
@@ -249,37 +221,37 @@ export default function Component() {
 
       {/* Преимущества */}
       <section className="py-16 bg-slate-50">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2 sm:px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
             Почему выбирают нас?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="flex flex-col items-center text-center">
-              <Star className="w-10 h-10 text-amber-500 mb-4" />
+            <div className="flex flex-col items-center text-center p-4 sm:p-6">
+              <Star className="w-8 h-8 sm:w-10 sm:h-10 text-amber-500 mb-2 sm:mb-4" />
               <h4 className="font-bold text-lg mb-2">Современный боулинг</h4>
               <p className="text-gray-600">
                 8 профессиональных дорожек Brunswick, детские бортики, легкие
                 шары, современная система подсчёта очков.
               </p>
             </div>
-            <div className="flex flex-col items-center text-center">
-              <Star className="w-10 h-10 text-amber-500 mb-4" />
+            <div className="flex flex-col items-center text-center p-4 sm:p-6">
+              <Star className="w-8 h-8 sm:w-10 sm:h-10 text-amber-500 mb-2 sm:mb-4" />
               <h4 className="font-bold text-lg mb-2">Лучший клуб</h4>
               <p className="text-gray-600">
                 Стильный ночной клуб с танцполом, VIP-зонами, авторскими
                 коктейлями и топовыми диджеями.
               </p>
             </div>
-            <div className="flex flex-col items-center text-center">
-              <Star className="w-10 h-10 text-amber-500 mb-4" />
+            <div className="flex flex-col items-center text-center p-4 sm:p-6">
+              <Star className="w-8 h-8 sm:w-10 sm:h-10 text-amber-500 mb-2 sm:mb-4" />
               <h4 className="font-bold text-lg mb-2">Караоке и шоу</h4>
               <p className="text-gray-600">
                 Караоке-зоны с отличным звуком, огромная база песен,
                 тематические вечеринки и шоу-программы.
               </p>
             </div>
-            <div className="flex flex-col items-center text-center">
-              <Star className="w-10 h-10 text-amber-500 mb-4" />
+            <div className="flex flex-col items-center text-center p-4 sm:p-6">
+              <Star className="w-8 h-8 sm:w-10 sm:h-10 text-amber-500 mb-2 sm:mb-4" />
               <h4 className="font-bold text-lg mb-2">Ресторан и бар</h4>
               <p className="text-gray-600">
                 Европейская и белорусская кухня, авторские блюда, десерты,
@@ -293,7 +265,7 @@ export default function Component() {
       {/* ОПИСАНИЯ ЗОН */}
       {/* Боулинг */}
       <section className="py-16 bg-gradient-to-br from-orange-50 via-white to-amber-100">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2 sm:px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-up">
               <h2 className="text-4xl font-bold mb-4 text-orange-600">
@@ -344,7 +316,7 @@ export default function Component() {
 
       {/* Клуб */}
       <section className="py-16 bg-gradient-to-br from-purple-50 via-white to-purple-100">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2 sm:px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex justify-center animate-fade-in-left">
               <Image
@@ -376,7 +348,7 @@ export default function Component() {
 
       {/* Караоке */}
       <section className="py-16 bg-gradient-to-br from-pink-50 via-white to-pink-100">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2 sm:px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-up">
               <h2 className="text-4xl font-bold mb-4 text-pink-600">Караоке</h2>
@@ -407,7 +379,7 @@ export default function Component() {
 
       {/* Ресторан */}
       <section className="py-16 bg-gradient-to-br from-amber-50 via-white to-yellow-100">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2 sm:px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex justify-center animate-fade-in-left">
               <Image
@@ -441,7 +413,7 @@ export default function Component() {
 
       {/* О нас */}
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2 sm:px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold mb-6">
@@ -502,7 +474,7 @@ export default function Component() {
 
       {/* Gallery Slider */}
       <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
             Наше заведение
           </h2>
@@ -563,7 +535,7 @@ export default function Component() {
 
       {/* Reviews Section */}
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
             Отзывы гостей
           </h2>
@@ -619,7 +591,7 @@ export default function Component() {
 
       {/* Map Section */}
       <section className="py-16 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
             Как нас найти
           </h2>
@@ -671,7 +643,7 @@ export default function Component() {
 
       {/* Схема помещений */}
       <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2 sm:px-4">
           <h2 className="text-3xl font-bold text-center mb-10">
             Схема помещений
           </h2>
@@ -723,9 +695,9 @@ export default function Component() {
 
       {/* Галерея */}
       <section className="py-16 bg-slate-50">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2 sm:px-4">
           <h2 className="text-3xl font-bold text-center mb-10">Галерея</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
@@ -736,10 +708,10 @@ export default function Component() {
                   alt={`Фото ${i}`}
                   width={400}
                   height={260}
-                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-40 xs:h-48 md:h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <span className="text-white text-lg font-bold drop-shadow">
+                  <span className="text-white text-base xs:text-lg font-bold drop-shadow">
                     {i === 1
                       ? "Боулинг"
                       : i === 2
