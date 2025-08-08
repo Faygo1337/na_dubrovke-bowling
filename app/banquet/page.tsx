@@ -19,18 +19,61 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
+import { useState } from "react";
 
 export default function BanquetPage() {
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    date: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.phone) {
+      alert("Введите имя и телефон");
+      return;
+    }
+    try {
+      setIsSubmitting(true);
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "banquet",
+          data: {
+            name: form.name,
+            phone: form.phone,
+            date: form.date || undefined,
+            message: form.message || undefined,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success)
+        throw new Error(data.error || "Ошибка отправки");
+      alert("Заявка отправлена! Мы свяжемся с вами в ближайшее время.");
+      setForm({ name: "", phone: "", date: "", message: "" });
+    } catch (err) {
+      alert("Не удалось отправить заявку. Попробуйте позже.");
+      console.log(err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative h-[100vh] min-h-[690px]  flex items-center">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url('/DeparisMainBg.webp')`,
-          }}
-        ></div>
+        <Image
+          src="/DeparisMainBg.webp"
+          alt="Фон банкетного зала"
+          fill
+          className="absolute inset-0 object-cover object-center"
+          priority
+        />
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="container mx-auto pt-16 sm:pt-24 px-2 sm:px-4 pb-10 sm:pb-16 relative z-10">
           <div className="max-w-3xl text-white mx-auto">
@@ -48,6 +91,7 @@ export default function BanquetPage() {
                   alt="logo de paris"
                   className="w-80 xs:w-72 md:w-[700px] h-auto"
                   style={{ filter: "invert(1)" }}
+                  priority
                 />
                 <p
                   className="block text-white text-2xl xs:text-3xl md:text-5xl font-bold mt-2 mb-2"
@@ -189,12 +233,12 @@ export default function BanquetPage() {
                 },
                 {
                   icon: Users,
-                  title: "Поминальные обеды",
+                  title: "Детские праздники",
                   description:
-                    "Организуем траурные мероприятия с особым тактом и вниманием. Скромная обстановка и деликатный сервис в трудные моменты.",
-                  badge: "Деликатный подход",
-                  badgeColor: "bg-gray-100 text-gray-800",
-                  gradient: "from-gray-600 to-gray-800",
+                    "Весёлые и яркие мероприятия для детей с аниматорами, играми и специальным детским меню. Создаём атмосферу радости и волшебства для самых маленьких гостей.",
+                  badge: "Детское меню",
+                  badgeColor: "bg-yellow-100 text-yellow-800",
+                  gradient: "from-yellow-400 to-orange-400",
                 },
                 {
                   icon: Music,
@@ -390,7 +434,7 @@ export default function BanquetPage() {
 
               <Card className="border-0 shadow-2xl bg-gradient-to-br from-white to-orange-50 overflow-hidden">
                 <CardContent className="p-8">
-                  <form className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="block text-sm font-semibold text-gray-700">
@@ -398,8 +442,13 @@ export default function BanquetPage() {
                         </label>
                         <input
                           type="text"
+                          value={form.name}
+                          onChange={(e) =>
+                            setForm({ ...form, name: e.target.value })
+                          }
                           className="w-full px-3 py-3 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:outline-none transition-colors duration-300 text-gray-900 placeholder-gray-400"
                           placeholder="Введите ваше имя"
+                          required
                         />
                       </div>
                       <div className="space-y-2">
@@ -408,8 +457,13 @@ export default function BanquetPage() {
                         </label>
                         <input
                           type="tel"
+                          value={form.phone}
+                          onChange={(e) =>
+                            setForm({ ...form, phone: e.target.value })
+                          }
                           className="w-full px-3 py-3 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:outline-none transition-colors duration-300 text-gray-900 placeholder-gray-400"
                           placeholder="+375 (XX) XXX-XX-XX"
+                          required
                         />
                       </div>
                     </div>
@@ -448,6 +502,10 @@ export default function BanquetPage() {
                       </label>
                       <input
                         type="date"
+                        value={form.date}
+                        onChange={(e) =>
+                          setForm({ ...form, date: e.target.value })
+                        }
                         className="w-full px-3 py-3 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:outline-none transition-colors duration-300 text-gray-900"
                       />
                     </div>
@@ -458,6 +516,10 @@ export default function BanquetPage() {
                       </label>
                       <textarea
                         rows={4}
+                        value={form.message}
+                        onChange={(e) =>
+                          setForm({ ...form, message: e.target.value })
+                        }
                         className="w-full px-3 py-3 rounded-xl border-2 border-gray-200 focus:border-orange-500 focus:outline-none transition-colors duration-300 text-gray-900 placeholder-gray-400 resize-none"
                         placeholder="Расскажите о ваших пожеланиях к оформлению, меню, музыке или других особых требованиях..."
                       ></textarea>
@@ -467,6 +529,7 @@ export default function BanquetPage() {
                       <Button
                         type="submit"
                         size="lg"
+                        disabled={isSubmitting}
                         className="flex-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-base py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 group"
                       >
                         <Calendar className="mr-2 h-4 w-4" />

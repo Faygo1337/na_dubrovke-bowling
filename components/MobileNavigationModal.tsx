@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 // import { Button } from "@/components/ui/button";
 import { Home, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 interface MobileNavigationModalProps {
   isOpen: boolean;
@@ -16,6 +17,8 @@ export function MobileNavigationModal({
 }: MobileNavigationModalProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (isOpen) {
@@ -33,7 +36,35 @@ export function MobileNavigationModal({
     }
   }, [isOpen]);
 
+  // Автофокус на кнопку закрытия при открытии
+  useEffect(() => {
+    if (isOpen) {
+      closeBtnRef.current?.focus();
+    }
+  }, [isOpen]);
+
+  // Закрытие по Escape
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isVisible) return null;
+
+  const NAV_LINKS = [
+    { href: "/", label: "Главная" },
+    { href: "/bowling", label: "БОУЛИНГ" },
+    { href: "/club", label: "КЛУБ" },
+    { href: "/karaoke", label: "КАРАОКЕ" },
+    { href: "/banquet", label: "БАНКЕТНЫЙ ЗАЛ" },
+    { href: "/delivery", label: "ЗАКАЗ ЕДЫ" },
+  ];
 
   return (
     <div className="fixed inset-0 z-[100]">
@@ -43,6 +74,7 @@ export function MobileNavigationModal({
           isAnimating ? "opacity-100" : "opacity-0"
         }`}
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Modal */}
@@ -50,6 +82,9 @@ export function MobileNavigationModal({
         className={`relative w-full h-full bg-black/40 backdrop-blur-lg text-black transition-all duration-700 ease-out overflow-y-auto ${
           isAnimating ? "translate-y-0" : "-translate-y-full"
         }`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mobile-nav-title"
       >
         {/* Header - Fixed */}
         <div
@@ -62,60 +97,55 @@ export function MobileNavigationModal({
           <button
             onClick={onClose}
             className="text-slate-700 hover:text-white transition-colors p-2 -ml-2"
+            aria-label="Домой"
           >
             <Home color="white" className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
-          <h1 className="text-sm sm:text-base lg:text-lg font-black tracking-[0.2em] sm:tracking-[0.3em] text-center text-white drop-shadow-md">
+          <h1
+            id="mobile-nav-title"
+            className="text-sm sm:text-base lg:text-lg font-black tracking-[0.2em] sm:tracking-[0.3em] text-center text-white drop-shadow-md"
+          >
             НАВИГАЦИЯ
           </h1>
 
           <button
             onClick={onClose}
+            ref={closeBtnRef}
             className="text-slate-700 hover:text-white transition-colors p-2 -mr-2"
+            aria-label="Закрыть меню"
           >
             <X color="white" className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
         {/* Content - Navigation */}
-        <div
+        <nav
           className={`flex flex-col items-center justify-center gap-6 py-12 px-4 sm:px-0 transition-all duration-700 delay-300 ease-out ${
             isAnimating
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
           }`}
+          aria-label="Мобильная навигация"
         >
-          <Link href="/bowling" onClick={onClose} className="w-full max-w-xs">
-            <button className="w-full py-3 text-lg mobile-menu-button">
-              БОУЛИНГ
-            </button>
-          </Link>
-
-          <Link href="/club" onClick={onClose} className="w-full max-w-xs">
-            <button className="w-full py-3 text-lg mobile-menu-button">
-              КЛУБ
-            </button>
-          </Link>
-
-          <Link href="/karaoke" onClick={onClose} className="w-full max-w-xs">
-            <button className="w-full py-3 text-lg mobile-menu-button">
-              КАРАОКЕ
-            </button>
-          </Link>
-
-          <Link href="/banquet" onClick={onClose} className="w-full max-w-xs">
-            <button className="w-full py-3 text-lg mobile-menu-button">
-              БАНКЕТНЫЙ ЗАЛ
-            </button>
-          </Link>
-
-          <Link href="/food" onClick={onClose} className="w-full max-w-xs">
-            <button className="w-full py-3 text-lg mobile-menu-button">
-              ЗАКАЗ ЕДЫ
-            </button>
-          </Link>
-        </div>
+          <ul className="flex flex-col items-center gap-6">
+            {NAV_LINKS.map(({ href, label }) => {
+              const isActive = pathname === href;
+              return (
+                <li key={href} className="w-full max-w-xs">
+                  <Link
+                    href={href}
+                    onClick={onClose}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`w-full block py-3 text-lg text-center mobile-menu-button`}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
       </div>
     </div>
   );

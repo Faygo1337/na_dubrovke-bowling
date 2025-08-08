@@ -46,7 +46,7 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
     onClose();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (
@@ -72,19 +72,38 @@ export function ClubBookingModal({ isOpen, onClose }: ClubBookingModalProps) {
       return;
     }
 
-    console.log("Club table booking:", bookingData);
-    alert("Заявка отправлена! Мы свяжемся с вами в течение 15 минут.");
+    try {
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "club",
+          data: {
+            name: bookingData.name,
+            phone: bookingData.phone,
+            date: bookingData.date,
+            time: bookingData.time,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success)
+        throw new Error(data.error || "Ошибка отправки");
 
-    // Сброс формы
-    setBookingData({
-      name: "",
-      phone: "",
-      date: "",
-      time: "",
-      agreed: false,
-    });
+      alert("Заявка отправлена! Мы свяжемся с вами в течение 15 минут.");
 
-    handleClose();
+      setBookingData({
+        name: "",
+        phone: "",
+        date: "",
+        time: "",
+        agreed: false,
+      });
+      handleClose();
+    } catch (err) {
+      console.error(err);
+      alert("Не удалось отправить заявку. Попробуйте позже.");
+    }
   };
 
   const getAvailableTimes = useCallback(() => {
