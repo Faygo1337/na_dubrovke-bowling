@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -8,13 +8,21 @@ import { Menu, Phone } from "lucide-react";
 import Image from "next/image";
 import { MobileNavigationModal } from "@/components/MobileNavigationModal";
 import { motion } from "framer-motion";
+
 export default function SiteHeader() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const isBowling = pathname.startsWith("/bowling");
-  const isClub = pathname.startsWith("/club");
-  const isHome = !isBowling && !isClub;
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  // Показываем загрузчик пока определяется активная страница
+  if (isLoading) {
+    return;
+  }
+
   return (
     <>
       <motion.header
@@ -36,57 +44,68 @@ export default function SiteHeader() {
                   className="object-contain"
                 />
               </div>
-              {/* <span className="font-bold text-xl hidden sm:inline">
-                Na Dubrovke
-              </span> */}
             </Link>
+
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
               <Link
                 href="/"
-                className={`header-link${isHome ? " header-link--active" : ""}`}
+                className={`header-link${
+                  pathname === "/" ? " header-link--active" : ""
+                }`}
               >
                 Главная
               </Link>
               <Link
                 href="/bowling"
                 className={`header-link${
-                  isBowling ? " header-link--active" : ""
+                  pathname === "/bowling" ? " header-link--active" : ""
                 }`}
               >
                 Боулинг
               </Link>
               <Link
                 href="/club"
-                className={`header-link${isClub ? " header-link--active" : ""}`}
+                className={`header-link${
+                  pathname === "/club" ? " header-link--active" : ""
+                }`}
               >
                 Клуб
               </Link>
               <Link
                 href="/karaoke"
-                className={`header-link${isClub ? " header-link--active" : ""}`}
+                className={`header-link${
+                  pathname === "/karaoke" ? " header-link--active" : ""
+                }`}
               >
                 Караоке
               </Link>
               <Link
                 href="/banquet"
-                className={`header-link${isClub ? " header-link--active" : ""}`}
+                className={`header-link${
+                  pathname === "/banquet" ? " header-link--active" : ""
+                }`}
               >
                 Банкеты
               </Link>
               <Link
                 href="/delivery"
-                className={`header-link${isClub ? " header-link--active" : ""}`}
+                className={`header-link${
+                  pathname === "/delivery" ? " header-link--active" : ""
+                }`}
               >
                 Доставка
               </Link>
               <Link
                 href="/promotions"
-                className={`header-link${isClub ? " header-link--active" : ""}`}
+                className={`header-link${
+                  pathname === "/promotions" ? " header-link--active" : ""
+                }`}
               >
                 Акции
               </Link>
             </nav>
+
             {/* Контакты и бронирование */}
             <div className="hidden lg:flex items-center space-x-4">
               <Phone className="w-4 h-4" />
@@ -106,6 +125,7 @@ export default function SiteHeader() {
           </div>
         </div>
       </motion.header>
+
       <MobileNavigationModal
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
