@@ -18,7 +18,6 @@ import { motion } from "framer-motion";
 import { isMobile } from "react-device-detect";
 import Link from "next/link";
 import SliderText from "@/components/SliderText";
-// Lazy loading компонентов
 const LazyGallery = lazy(() => import("@/components/club-gallery"));
 
 export default function ClubHomePage() {
@@ -26,7 +25,6 @@ export default function ClubHomePage() {
   const [videoSrc, setVideoSrc] = useState<string>("");
   const [videoSrcMp4, setVideoSrcMp4] = useState<string>("");
 
-  // Решение проблемы гидратации: определяем src только на клиенте
   useEffect(() => {
     if (isMobile) {
       setVideoSrcMp4(
