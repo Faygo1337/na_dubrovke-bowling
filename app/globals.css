@@ -216,6 +216,41 @@ html {
   color: white;
 }
 
+/* Header Navigation Styles */
+.header-nav-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  background: #ffffff14;
+  padding: 6px 12px;
+  backdrop-filter: blur(10px);
+}
+
+.header-nav-item {
+  position: relative;
+  padding: 6px 12px;
+  color: white;
+  font-weight: 500;
+  transition: all 0.05s ease;
+  white-space: nowrap;
+  z-index: 10;
+  font-size: 14px;
+}
+
+.header-nav-item:hover {
+  color: white;
+}
+
+.header-nav-highlight {
+  position: absolute;
+  background: #fff2f229;
+  border-radius: 8px;
+  height: 32px;
+  transition: all 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
