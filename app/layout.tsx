@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "Na Dubrovke - Боулинг и Клуб в Могилеве",
   description:
     "Лучший боулинг-клуб в Могилеве. Боулинг, ресторан, банкетный зал, караоке, клуб и развлечения для всей семьи.",
+  icons: "/Logo.webp",
 };
 
 export default function RootLayout({
@@ -26,7 +27,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <SiteHeader />
 
-        {children}  
+        {children}
         <SiteFooter />
       </body>
     </html>

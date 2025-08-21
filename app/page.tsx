@@ -5,7 +5,8 @@ import { Phone, MapPin, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import SliderBackground from "@/components/SliderMainBg";
-
+import GlassButton from "@/components/ui/GlassButton";
+import Link from "next/link";
 export default function Component() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -106,14 +107,11 @@ export default function Component() {
                 </p>
               </div>
               <div className="block">
-                <Button
-                  size="lg"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3"
-                >
-                  забронировать
-                  <br />
-                  дорожку
-                </Button>
+                <Link href="/bowling">
+                  <GlassButton className="bg-blue-600 hover:bg-blue-700 text-white font-semibold">
+                    Забронировать дорожку -&gt;
+                  </GlassButton>
+                </Link>
               </div>
             </div>
           </div>
@@ -139,14 +137,11 @@ export default function Component() {
                 </p>
               </div>
               <div className="block">
-                <Button
-                  size="lg"
-                  className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3"
-                >
-                  забронировать
-                  <br />
-                  стол
-                </Button>
+                <Link href="/club">
+                  <GlassButton className="text-white font-semibold">
+                    Забронировать стол -&gt;
+                  </GlassButton>
+                </Link>
               </div>
             </div>
           </div>
@@ -172,14 +167,11 @@ export default function Component() {
                 </p>
               </div>
               <div className="block">
-                <Button
-                  size="lg"
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3"
-                >
-                  забронировать
-                  <br />
-                  кабину
-                </Button>
+                <Link href="/karaoke">
+                  <GlassButton className="text-white font-semibold">
+                    Узнать подробнее -&gt;
+                  </GlassButton>
+                </Link>
               </div>
             </div>
           </div>
@@ -198,21 +190,18 @@ export default function Component() {
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
               <div className="text-center md:text-left mb-4 md:mb-0">
                 <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white">
-                  <span className="font-black">РЕСТОРАН</span>
+                  <span className="font-black">БАНКЕТНЫЙ ЗАЛ</span>
                 </h2>
                 <p className="text-lg md:text-xl text-gray-300 mt-2 hidden md:block">
-                  Европейская и белорусская кухня
+                  Самая лучшая атмосфера для всех мероприятий
                 </p>
               </div>
               <div className="block">
-                <Button
-                  size="lg"
-                  className="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-6 py-3"
-                >
-                  посмотреть
-                  <br />
-                  меню
-                </Button>
+                <Link href="/banquet">
+                  <GlassButton className="text-white font-semibold">
+                    Узнать подробнее -&gt;
+                  </GlassButton>
+                </Link>
               </div>
             </div>
           </div>

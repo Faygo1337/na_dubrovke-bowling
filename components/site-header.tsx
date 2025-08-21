@@ -85,7 +85,6 @@ export default function SiteHeader() {
   const currentPosition = hoveredIndex !== null ? hoveredIndex : activeIndex;
   const currentLink = linkPositions[currentPosition] || { x: 0, width: 100 };
 
-  // Показываем загрузчик пока определяется активная страница
   if (isLoading) {
     return null;
   }
