@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Phone, MapPin, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import SliderBackground from "@/components/SliderMainBg";
@@ -573,58 +572,6 @@ export default function Component() {
                 звук.&quot;
               </p>
               <p className="font-semibold text-gray-800">Елена В.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="py-16 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-2 sm:px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
-            Как нас найти
-          </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                Контактная информация
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <MapPin className="w-5 h-5 text-blue-600" />
-                  <span className="text-gray-700">
-                    г. Могилев, ул. Дубровская, 15
-                  </span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-blue-600" />
-                  <div>
-                    <p className="text-gray-700">+375 (222) 25-25-25</p>
-                    <p className="text-gray-700">+375 (222) 62-85-62</p>
-                    <p className="text-gray-700">+375 (222) 63-39-18</p>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-8">
-                <h4 className="text-lg font-semibold mb-4 text-gray-800">
-                  Режим работы
-                </h4>
-                <div className="space-y-2 text-gray-600">
-                  <p>Пн-Чт: 12:00 - 02:00</p>
-                  <p>Пт-Сб: 12:00 - 04:00</p>
-                  <p>Вс: 12:00 - 00:00</p>
-                </div>
-              </div>
-            </div>
-            <div className="h-96 bg-gray-300 rounded-lg flex items-center justify-center">
-              <div className="text-center text-gray-600">
-                <MapPin className="w-12 h-12 mx-auto mb-4" />
-                <p className="text-lg font-semibold">Интерактивная карта</p>
-                <p className="text-sm">г. Могилев, ул. Дубровская, 15</p>
-                <Button className="mt-4 bg-blue-600 hover:bg-blue-700">
-                  Построить маршрут
-                </Button>
-              </div>
             </div>
           </div>
         </div>
